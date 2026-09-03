@@ -11,6 +11,7 @@ function Navbar({ darkMode, setDarkMode }) {
     { name: 'About', href: '/about' },
     { name: 'FAQ', href: '/faq' },
     { name: 'Blog', href: '/blog' },
+    { name: 'Notes', href: '/notes' },
   ];
 
   return (

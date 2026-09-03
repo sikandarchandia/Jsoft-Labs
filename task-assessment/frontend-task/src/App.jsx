@@ -12,6 +12,7 @@ import Privacy from './pages/Privacy';
 import Blog from './pages/Blog';
 import BlogPost from './pages/BlogPost';
 import NotFound from './pages/NotFound';
+import Notes from './pages/Notes';
 
 function App() {
   const [darkMode, setDarkMode] = useState(() => {
@@ -44,6 +45,7 @@ function App() {
             <Route path="/faq" element={<FAQ />} />
             <Route path="/blog" element={<Blog />} />
             <Route path="/blog/:slug" element={<BlogPost />} />
+            <Route path="/notes" element={<Notes />} />
             <Route path = '*' element={<NotFound/>} />
           </Routes>
         </main>
