@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 import Navbar from './components/layout/Navbar';
 import Footer from './components/layout/Footer';
 import Home from './pages/Home';
@@ -35,27 +35,36 @@ function App() {
 
   return (
     <Router>
-      <div className="min-h-screen flex flex-col bg-secondary-50 dark:bg-secondary-900 transition-colors duration-300">
-        <Navbar darkMode={darkMode} setDarkMode={setDarkMode} wallet={wallet} />
-        <main className="flex-grow">
-          <Routes>
-            <Route path="/" element={<Home wallet={wallet} />} />
-            <Route path="/properties" element={<Properties />} />
-            <Route path="/properties/:id" element={<PropertyDetail />} />
-            <Route path="/property-3d" element={<Property3D />} />
-            <Route path="/about" element={<About />} />
-            <Route path="/privacy" element={<Privacy />} />
-            <Route path="/faq" element={<FAQ />} />
-            <Route path="/blog" element={<Blog />} />
-            <Route path="/blog/:slug" element={<BlogPost />} />
-            <Route path="/notes" element={<Notes />} />
-            <Route path="/chat" element={<Chatbot />} />
-            <Route path = '*' element={<NotFound/>} />
-          </Routes>
-        </main>
-        <Footer />
-      </div>
+      <AppShell darkMode={darkMode} setDarkMode={setDarkMode} wallet={wallet} />
     </Router>
+  );
+}
+
+function AppShell({ darkMode, setDarkMode, wallet }) {
+  const location = useLocation();
+  const isChat = location.pathname === '/chat';
+
+  return (
+    <div className={`${isChat ? 'h-screen overflow-hidden' : 'min-h-screen'} flex flex-col bg-secondary-50 dark:bg-secondary-900 transition-colors duration-300`}>
+      <Navbar darkMode={darkMode} setDarkMode={setDarkMode} wallet={wallet} />
+      <main className={`flex-grow min-h-0 ${isChat ? 'overflow-hidden flex flex-col' : ''}`}>
+        <Routes>
+          <Route path="/" element={<Home wallet={wallet} />} />
+          <Route path="/properties" element={<Properties />} />
+          <Route path="/properties/:id" element={<PropertyDetail />} />
+          <Route path="/property-3d" element={<Property3D />} />
+          <Route path="/about" element={<About />} />
+          <Route path="/privacy" element={<Privacy />} />
+          <Route path="/faq" element={<FAQ />} />
+          <Route path="/blog" element={<Blog />} />
+          <Route path="/blog/:slug" element={<BlogPost />} />
+          <Route path="/notes" element={<Notes />} />
+          <Route path="/chat" element={<div className="h-full min-h-0 flex flex-col"><Chatbot /></div>} />
+          <Route path = '*' element={<NotFound/>} />
+        </Routes>
+      </main>
+      {!isChat && <Footer />}
+    </div>
   );
 }
 

@@ -18,7 +18,7 @@ const WELCOME = {
 
 function PropertyCard({ item }) {
   return (
-    <div className="flex items-center gap-3 p-3 rounded-lg bg-secondary-50 dark:bg-secondary-900/60 border border-secondary-100 dark:border-secondary-600">
+    <div className="flex items-center gap-3 p-3 rounded-lg bg-white dark:bg-secondary-800 border border-secondary-100 dark:border-secondary-600">
       <div className="w-10 h-10 rounded-lg bg-primary-100 dark:bg-primary-900/40 flex items-center justify-center shrink-0">
         <FiHome className="text-primary-600 dark:text-primary-400" size={18} />
       </div>
@@ -32,9 +32,8 @@ function PropertyCard({ item }) {
         </div>
       </div>
       <div className="text-right shrink-0">
-        <div className="text-sm font-bold text-primary-600 dark:text-primary-400 flex items-center gap-0.5">
-          <FiDollarSign size={12} />
-          {item.price}
+        <div className="text-sm font-bold text-primary-600 dark:text-primary-400">
+          ${item.price}
           <span className="text-xs font-normal text-secondary-400">/mo</span>
         </div>
       </div>
@@ -47,11 +46,13 @@ function Chatbot() {
   const [messages, setMessages] = useState([WELCOME]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
-  const bottomRef = useRef(null);
+  const listRef = useRef(null);
   const inputRef = useRef(null);
 
   useEffect(() => {
-    bottomRef.current?.scrollIntoView({ behavior: "smooth" });
+    const el = listRef.current;
+    if (!el) return;
+    el.scrollTo({ top: el.scrollHeight, behavior: "smooth" });
   }, [messages, loading]);
 
   const send = async (text) => {
@@ -97,22 +98,25 @@ function Chatbot() {
   };
 
   return (
-    <div className="min-h-screen bg-secondary-100 dark:bg-secondary-900 transition-colors duration-300 py-6 sm:py-10">
-      <div className="max-w-3xl mx-auto px-4 sm:px-6 flex flex-col h-[calc(100vh-5rem)] sm:h-[calc(100vh-8rem)]">
+    <div className="h-full min-h-0 flex flex-col bg-secondary-100 dark:bg-secondary-900">
+      <div className="max-w-3xl mx-auto w-full h-full min-h-0 flex flex-col px-4 py-3 sm:px-6 sm:py-4">
 
-        <div className="flex items-center gap-3 mb-4 shrink-0">
-          <div className="w-11 h-11 rounded-xl bg-primary-600 flex items-center justify-center shadow-md">
-            <FiMessageCircle className="text-white" size={22} />
+        <div className="flex items-center gap-3 pb-3 shrink-0">
+          <div className="w-10 h-10 rounded-xl bg-primary-600 flex items-center justify-center shadow-md">
+            <FiMessageCircle className="text-white" size={20} />
           </div>
           <div>
-            <h1 className="text-xl font-bold dark:text-white">Property Assistant</h1>
+            <h1 className="text-lg font-bold dark:text-white leading-tight">Property Assistant</h1>
             <p className="text-xs text-secondary-500 dark:text-secondary-400">
               Search listings by city, price & bedrooms
             </p>
           </div>
         </div>
 
-        <div className="flex-grow overflow-y-auto rounded-xl bg-white dark:bg-secondary-800 border border-secondary-200 dark:border-secondary-700 shadow-sm p-4 space-y-4 mb-4 transition-colors duration-300">
+        <div
+          ref={listRef}
+          className="flex-1 min-h-0 overflow-y-auto overscroll-contain rounded-xl bg-white dark:bg-secondary-800 border border-secondary-200 dark:border-secondary-700 shadow-sm p-4 space-y-4"
+        >
           {messages.map((msg, i) => (
             <div key={i}>
               {msg.role === "user" ? (
@@ -167,14 +171,13 @@ function Chatbot() {
               </div>
             </div>
           )}
-          <div ref={bottomRef} />
         </div>
 
         {error && (
-          <p className="text-xs text-red-500 mb-2 shrink-0">{error}</p>
+          <p className="text-xs text-red-500 mt-2 shrink-0">{error}</p>
         )}
 
-        <div className="shrink-0 flex gap-2 bg-white dark:bg-secondary-800 rounded-xl border border-secondary-200 dark:border-secondary-700 p-2 shadow-sm transition-colors duration-300">
+        <div className="shrink-0 mt-3 flex gap-2 bg-white dark:bg-secondary-800 rounded-xl border border-secondary-200 dark:border-secondary-700 p-2 shadow-sm">
           <input
             ref={inputRef}
             type="text"
