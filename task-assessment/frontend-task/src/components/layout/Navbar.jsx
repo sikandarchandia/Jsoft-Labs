@@ -8,13 +8,13 @@ function Navbar({ darkMode, setDarkMode, wallet }) {
 
   const navigation = [
     { name: 'Home', href: '/' },
+    { name: 'Dashboard', href: '/dashboard' },
     { name: 'Properties', href: '/properties' },
     { name: 'About', href: '/about' },
     { name: 'FAQ', href: '/faq' },
     { name: 'Blog', href: '/blog' },
     { name: 'Notes', href: '/notes' },
     { name: 'Chat', href: '/chat' },
-    { name: 'Dashboard', href: '/dashboard' },
   ];
 
   const WalletButton = ({ size = 'md' }) => {
