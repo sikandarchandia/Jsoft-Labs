@@ -1,8 +1,9 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { FiMenu, FiX, FiSun, FiMoon } from 'react-icons/fi';
+import { FaWallet } from 'react-icons/fa';
 
-function Navbar({ darkMode, setDarkMode }) {
+function Navbar({ darkMode, setDarkMode, wallet }) {
   const [isOpen, setIsOpen] = useState(false);
 
   const navigation = [
@@ -13,6 +14,35 @@ function Navbar({ darkMode, setDarkMode }) {
     { name: 'Blog', href: '/blog' },
     { name: 'Notes', href: '/notes' },
   ];
+
+  const WalletButton = ({ size = 'md' }) => {
+    if (wallet.account) {
+      return (
+        <div className="flex items-center gap-2">
+          <span className={`${size === 'sm' ? 'text-xs' : 'text-sm'} text-secondary-500 dark:text-secondary-400 hidden lg:inline`}>
+            {parseFloat(wallet.balance || 0).toFixed(3)} ETH
+          </span>
+          <button
+            onClick={wallet.disconnect}
+            className={`inline-flex items-center gap-1.5 ${size === 'sm' ? 'px-3 py-1.5 text-xs' : 'px-4 py-2 text-sm'} font-medium rounded-md bg-green-50 dark:bg-green-900/30 text-green-700 dark:text-green-400 border border-green-200 dark:border-green-800 hover:bg-green-100 dark:hover:bg-green-900/50 transition-colors`}
+          >
+            <span className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
+            {wallet.shortAddress}
+          </button>
+        </div>
+      );
+    }
+    return (
+      <button
+        onClick={wallet.connect}
+        disabled={wallet.connecting}
+        className={`btn flex items-center gap-2 ${wallet.connecting ? 'opacity-60 cursor-wait' : ''}`}
+      >
+        <FaWallet size={size === 'sm' ? 12 : 14} />
+        {wallet.connecting ? 'Connecting...' : 'Connect Wallet'}
+      </button>
+    );
+  };
 
   return (
     <nav className="bg-white dark:bg-secondary-800 shadow-sm transition-colors duration-300">
@@ -46,7 +76,7 @@ function Navbar({ darkMode, setDarkMode }) {
             >
               {darkMode ? <FiSun size={20} className="text-yellow-400" /> : <FiMoon size={20} />}
             </button>
-            <button className="btn">Connect</button>
+            <WalletButton />
           </div>
 
           <div className="flex items-center gap-2 md:hidden">
@@ -80,12 +110,12 @@ function Navbar({ darkMode, setDarkMode }) {
                   {item.name}
                 </Link>
               ))}
-              <button
-                className="block px-3 py-2 text-base font-medium text-white bg-primary-600 hover:bg-primary-700"
-                onClick={() => setIsOpen(false)}
-              >
-                Connect
-              </button>
+              {wallet.error && (
+                <p className="px-3 py-1 text-xs text-red-500">{wallet.error}</p>
+              )}
+              <div className="px-3 py-2">
+                <WalletButton size="sm" />
+              </div>
             </div>
           </div>
         )}

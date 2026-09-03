@@ -13,8 +13,10 @@ import Blog from './pages/Blog';
 import BlogPost from './pages/BlogPost';
 import NotFound from './pages/NotFound';
 import Notes from './pages/Notes';
+import { useWallet } from './hooks/useWallet';
 
 function App() {
+  const wallet = useWallet();
   const [darkMode, setDarkMode] = useState(() => {
     return localStorage.getItem('theme') === 'dark';
   });
@@ -33,10 +35,10 @@ function App() {
   return (
     <Router>
       <div className="min-h-screen flex flex-col bg-secondary-50 dark:bg-secondary-900 transition-colors duration-300">
-        <Navbar darkMode={darkMode} setDarkMode={setDarkMode} />
+        <Navbar darkMode={darkMode} setDarkMode={setDarkMode} wallet={wallet} />
         <main className="flex-grow">
           <Routes>
-            <Route path="/" element={<Home />} />
+            <Route path="/" element={<Home wallet={wallet} />} />
             <Route path="/properties" element={<Properties />} />
             <Route path="/properties/:id" element={<PropertyDetail />} />
             <Route path="/property-3d" element={<Property3D />} />

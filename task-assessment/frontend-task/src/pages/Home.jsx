@@ -6,7 +6,7 @@ import { FaWallet, FaStore, FaMoneyBillWave, FaExchangeAlt, FaChartLine, FaLock,
 import { SiEthereum } from 'react-icons/si';
 import { FiChevronDown, FiChevronUp } from 'react-icons/fi';
 
-function Home() {
+function Home({ wallet }) {
   const [openSections, setOpenSections] = useState({});
 
   const featuredProperties = [
@@ -415,12 +415,24 @@ function Home() {
             >
               Browse Properties
             </Link>
-            <button
-              className="btn bg-primary-700 hover:bg-primary-800"
-            >
-              <FaWallet className="mr-2" />
-              Connect Wallet
-            </button>
+            {wallet?.account ? (
+              <div className="inline-flex items-center gap-2 px-6 py-3 rounded-md bg-white/20 text-white font-medium">
+                <span className="w-2 h-2 rounded-full bg-green-400 animate-pulse" />
+                {wallet.shortAddress}
+                <span className="text-white/70 text-sm ml-1">
+                  ({parseFloat(wallet.balance || 0).toFixed(3)} ETH)
+                </span>
+              </div>
+            ) : (
+              <button
+                onClick={() => wallet?.connect()}
+                disabled={wallet?.connecting}
+                className={`btn bg-primary-700 hover:bg-primary-800 ${wallet?.connecting ? 'opacity-60 cursor-wait' : ''}`}
+              >
+                <FaWallet className="mr-2" />
+                {wallet?.connecting ? 'Connecting...' : 'Connect Wallet'}
+              </button>
+            )}
           </div>
         </div>
       </section>
