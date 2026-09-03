@@ -17,7 +17,7 @@ Then update this table:
 | 1 | Introduction | Completed |  |
 | 2 | Frontend Task | Completed | Dark/Light mode toggle in Navbar, smooth transitions, responsive |
 | 3 | Backend Task | Completed | Notes CRUD API (POST/GET/PUT/DELETE), in-memory, all endpoints tested |
-| 4 | Blockchain Task | Not started |  |
+| 4 | Blockchain Task | Completed | EVM Smart Contract (PropertyRegistry.sol) + ethers.js API, all endpoints tested |
 | 5 | Web3 Task | Not started |  |
 | 6 | AI Task | Not started |  |
 | 7 | QA Task | Not started |  |

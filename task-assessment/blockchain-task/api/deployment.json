@@ -1,0 +1,215 @@
+{
+  "address": "0x5FbDB2315678afecb367f032d93F642f64180aa3",
+  "network": "localhost",
+  "chainId": 31337,
+  "deployer": "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266",
+  "deployedAt": "2026-09-03T15:52:16.251Z",
+  "abi": [
+    {
+      "type": "event",
+      "anonymous": false,
+      "name": "PropertyListed",
+      "inputs": [
+        {
+          "type": "uint256",
+          "name": "id",
+          "indexed": true
+        },
+        {
+          "type": "string",
+          "name": "title",
+          "indexed": false
+        },
+        {
+          "type": "address",
+          "name": "owner",
+          "indexed": true
+        }
+      ]
+    },
+    {
+      "type": "event",
+      "anonymous": false,
+      "name": "PropertyRemoved",
+      "inputs": [
+        {
+          "type": "uint256",
+          "name": "id",
+          "indexed": true
+        }
+      ]
+    },
+    {
+      "type": "event",
+      "anonymous": false,
+      "name": "PropertyUpdated",
+      "inputs": [
+        {
+          "type": "uint256",
+          "name": "id",
+          "indexed": true
+        },
+        {
+          "type": "uint256",
+          "name": "newPrice",
+          "indexed": false
+        }
+      ]
+    },
+    {
+      "type": "function",
+      "name": "getAllProperties",
+      "constant": true,
+      "stateMutability": "view",
+      "payable": false,
+      "inputs": [],
+      "outputs": [
+        {
+          "type": "tuple[]",
+          "name": "",
+          "components": [
+            {
+              "type": "uint256",
+              "name": "id"
+            },
+            {
+              "type": "string",
+              "name": "title"
+            },
+            {
+              "type": "string",
+              "name": "location"
+            },
+            {
+              "type": "uint256",
+              "name": "priceUSD"
+            },
+            {
+              "type": "address",
+              "name": "owner"
+            },
+            {
+              "type": "bool",
+              "name": "isActive"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "function",
+      "name": "getProperty",
+      "constant": true,
+      "stateMutability": "view",
+      "payable": false,
+      "inputs": [
+        {
+          "type": "uint256",
+          "name": "id"
+        }
+      ],
+      "outputs": [
+        {
+          "type": "tuple",
+          "name": "",
+          "components": [
+            {
+              "type": "uint256",
+              "name": "id"
+            },
+            {
+              "type": "string",
+              "name": "title"
+            },
+            {
+              "type": "string",
+              "name": "location"
+            },
+            {
+              "type": "uint256",
+              "name": "priceUSD"
+            },
+            {
+              "type": "address",
+              "name": "owner"
+            },
+            {
+              "type": "bool",
+              "name": "isActive"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "function",
+      "name": "listProperty",
+      "constant": false,
+      "payable": false,
+      "inputs": [
+        {
+          "type": "string",
+          "name": "title"
+        },
+        {
+          "type": "string",
+          "name": "location"
+        },
+        {
+          "type": "uint256",
+          "name": "priceUSD"
+        }
+      ],
+      "outputs": [
+        {
+          "type": "uint256",
+          "name": ""
+        }
+      ]
+    },
+    {
+      "type": "function",
+      "name": "removeProperty",
+      "constant": false,
+      "payable": false,
+      "inputs": [
+        {
+          "type": "uint256",
+          "name": "id"
+        }
+      ],
+      "outputs": []
+    },
+    {
+      "type": "function",
+      "name": "totalProperties",
+      "constant": true,
+      "stateMutability": "view",
+      "payable": false,
+      "inputs": [],
+      "outputs": [
+        {
+          "type": "uint256",
+          "name": ""
+        }
+      ]
+    },
+    {
+      "type": "function",
+      "name": "updatePrice",
+      "constant": false,
+      "payable": false,
+      "inputs": [
+        {
+          "type": "uint256",
+          "name": "id"
+        },
+        {
+          "type": "uint256",
+          "name": "newPrice"
+        }
+      ],
+      "outputs": []
+    }
+  ]
+}
