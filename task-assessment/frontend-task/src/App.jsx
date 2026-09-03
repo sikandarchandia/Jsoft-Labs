@@ -14,6 +14,7 @@ import BlogPost from './pages/BlogPost';
 import NotFound from './pages/NotFound';
 import Notes from './pages/Notes';
 import { useWallet } from './hooks/useWallet';
+import Chatbot from './pages/Chatbot';
 
 function App() {
   const wallet = useWallet();
@@ -48,6 +49,7 @@ function App() {
             <Route path="/blog" element={<Blog />} />
             <Route path="/blog/:slug" element={<BlogPost />} />
             <Route path="/notes" element={<Notes />} />
+            <Route path="/chat" element={<Chatbot />} />
             <Route path = '*' element={<NotFound/>} />
           </Routes>
         </main>

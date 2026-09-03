@@ -13,6 +13,7 @@ function Navbar({ darkMode, setDarkMode, wallet }) {
     { name: 'FAQ', href: '/faq' },
     { name: 'Blog', href: '/blog' },
     { name: 'Notes', href: '/notes' },
+    { name: 'Chat', href: '/chat' },
   ];
 
   const WalletButton = ({ size = 'md' }) => {
@@ -33,14 +34,20 @@ function Navbar({ darkMode, setDarkMode, wallet }) {
       );
     }
     return (
-      <button
-        onClick={wallet.connect}
-        disabled={wallet.connecting}
-        className={`btn flex items-center gap-2 ${wallet.connecting ? 'opacity-60 cursor-wait' : ''}`}
-      >
-        <FaWallet size={size === 'sm' ? 12 : 14} />
-        {wallet.connecting ? 'Connecting...' : 'Connect Wallet'}
-      </button>
+      <div className="flex flex-col items-end gap-1">
+        <button
+          onClick={wallet.connect}
+          disabled={wallet.connecting}
+          className={`btn flex items-center gap-2 ${wallet.connecting ? 'opacity-60 cursor-wait' : ''}`}
+          title={wallet.hasWallet ? 'Connect your wallet' : 'Install MetaMask to connect'}
+        >
+          <FaWallet size={size === 'sm' ? 12 : 14} />
+          {wallet.connecting ? 'Connecting...' : wallet.hasWallet ? 'Connect Wallet' : 'Install MetaMask'}
+        </button>
+        {wallet.error && (
+          <span className="text-xs text-red-500 max-w-[200px] text-right">{wallet.error}</span>
+        )}
+      </div>
     );
   };
 

@@ -1,0 +1,11 @@
+[
+  { "id": 1, "city": "New York", "bedrooms": 2, "price": 1100 },
+  { "id": 2, "city": "New York", "bedrooms": 3, "price": 1250 },
+  { "id": 3, "city": "San Francisco", "bedrooms": 1, "price": 2000 },
+  { "id": 4, "city": "San Francisco", "bedrooms": 2, "price": 1750 },
+  { "id": 5, "city": "Austin", "bedrooms": 2, "price": 980 },
+  { "id": 6, "city": "Chicago", "bedrooms": 1, "price": 850 },
+  { "id": 7, "city": "Los Angeles", "bedrooms": 2, "price": 1450 },
+  { "id": 8, "city": "Seattle", "bedrooms": 3, "price": 1650 }
+]
+
