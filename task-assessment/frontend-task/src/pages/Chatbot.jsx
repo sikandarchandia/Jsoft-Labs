@@ -1,27 +1,68 @@
-import { useState } from "react";
-import { FiSend, FiSearch, FiRefreshCcw } from "react-icons/fi";
+import { useState, useRef, useEffect } from "react";
+import { FiSend, FiMessageCircle, FiHome, FiMapPin, FiDollarSign } from "react-icons/fi";
 
 const API = "http://localhost:4003/chat";
 
+const WELCOME = {
+  role: "bot",
+  reply:
+    "Hi! I'm your property assistant. Ask about apartments by city, budget, or bedrooms — I'll find matching listings instantly.",
+  results: [],
+  suggestions: [
+    "Show me apartments under $1200 in New York",
+    "What cities do you have?",
+    "Cheapest apartments available",
+    "Find 2 bedrooms in Austin under $1000",
+  ],
+};
+
+function PropertyCard({ item }) {
+  return (
+    <div className="flex items-center gap-3 p-3 rounded-lg bg-secondary-50 dark:bg-secondary-900/60 border border-secondary-100 dark:border-secondary-600">
+      <div className="w-10 h-10 rounded-lg bg-primary-100 dark:bg-primary-900/40 flex items-center justify-center shrink-0">
+        <FiHome className="text-primary-600 dark:text-primary-400" size={18} />
+      </div>
+      <div className="flex-grow min-w-0">
+        <div className="font-medium text-sm dark:text-white truncate">
+          {item.city} · {item.bedrooms} bed
+        </div>
+        <div className="text-xs text-secondary-500 dark:text-secondary-400 flex items-center gap-1 mt-0.5">
+          <FiMapPin size={12} />
+          Listing #{item.id}
+        </div>
+      </div>
+      <div className="text-right shrink-0">
+        <div className="text-sm font-bold text-primary-600 dark:text-primary-400 flex items-center gap-0.5">
+          <FiDollarSign size={12} />
+          {item.price}
+          <span className="text-xs font-normal text-secondary-400">/mo</span>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 function Chatbot() {
-  const [message, setMessage] = useState("");
-  const [reply, setReply] = useState("");
-  const [results, setResults] = useState([]);
+  const [input, setInput] = useState("");
+  const [messages, setMessages] = useState([WELCOME]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const bottomRef = useRef(null);
+  const inputRef = useRef(null);
 
-  const quickPrompts = [
-    "Show me apartments under $1200 in New York",
-    "Find 2 bedrooms in San Francisco under $1800",
-    "Apartments in Austin under $1000",
-  ];
+  useEffect(() => {
+    bottomRef.current?.scrollIntoView({ behavior: "smooth" });
+  }, [messages, loading]);
 
   const send = async (text) => {
-    const q = typeof text === "string" ? text : message;
-    if (!q.trim()) return;
+    const q = (typeof text === "string" ? text : input).trim();
+    if (!q || loading) return;
 
-    setLoading(true);
+    setInput("");
     setError("");
+    setMessages((prev) => [...prev, { role: "user", text: q }]);
+    setLoading(true);
+
     try {
       const res = await fetch(API, {
         method: "POST",
@@ -29,130 +70,130 @@ function Chatbot() {
         body: JSON.stringify({ message: q }),
       });
       const data = await res.json();
-      setReply(data.reply || "No reply");
-      setResults(Array.isArray(data.results) ? data.results : []);
-    } catch (e) {
-      setError("Chat API not reachable. Start chat-server.js first.");
+      setMessages((prev) => [
+        ...prev,
+        {
+          role: "bot",
+          reply: data.reply || "I couldn't process that request.",
+          results: Array.isArray(data.results) ? data.results : [],
+          suggestions: Array.isArray(data.suggestions) ? data.suggestions : [],
+          intent: data.intent,
+          entities: data.entities,
+        },
+      ]);
+    } catch {
+      setError("Chat API not reachable. Run: node chat-server.js in ai-task folder.");
     } finally {
       setLoading(false);
+      inputRef.current?.focus();
+    }
+  };
+
+  const onKeyDown = (e) => {
+    if (e.key === "Enter" && !e.shiftKey) {
+      e.preventDefault();
+      send();
     }
   };
 
   return (
-    <div className="min-h-screen bg-secondary-50 dark:bg-secondary-900 transition-colors duration-300 py-10">
-      <div className="max-w-4xl mx-auto px-4 sm:px-6">
-        <div className="bg-white dark:bg-secondary-800 rounded-xl shadow-md border border-secondary-100 dark:border-secondary-700 p-6 mb-6 transition-colors duration-300">
-          <div className="flex items-start justify-between gap-4 flex-col sm:flex-row">
-            <div>
-              <h1 className="text-2xl font-bold dark:text-white">Chatbot</h1>
-              <p className="text-secondary-500 dark:text-secondary-400 text-sm mt-1">
-                Ask for property listings using simple filters (city, price, bedrooms).
-              </p>
-            </div>
-            <div className="flex gap-2">
-              <button
-                onClick={() => {
-                  setMessage(quickPrompts[0]);
-                  setReply("");
-                  setResults([]);
-                }}
-                className="btn-secondary"
-              >
-                <FiRefreshCcw size={14} className="mr-2" />
-                Sample
-              </button>
-            </div>
+    <div className="min-h-screen bg-secondary-100 dark:bg-secondary-900 transition-colors duration-300 py-6 sm:py-10">
+      <div className="max-w-3xl mx-auto px-4 sm:px-6 flex flex-col h-[calc(100vh-5rem)] sm:h-[calc(100vh-8rem)]">
+
+        <div className="flex items-center gap-3 mb-4 shrink-0">
+          <div className="w-11 h-11 rounded-xl bg-primary-600 flex items-center justify-center shadow-md">
+            <FiMessageCircle className="text-white" size={22} />
           </div>
-
-          <div className="mt-5 grid grid-cols-1 sm:grid-cols-3 gap-2">
-            {quickPrompts.map((p) => (
-              <button
-                key={p}
-                onClick={() => {
-                  setMessage(p);
-                  setReply("");
-                  setResults([]);
-                }}
-                className="text-left px-3 py-2 rounded-lg border border-secondary-200 dark:border-secondary-600 dark:bg-secondary-700 dark:text-white text-sm hover:border-primary-300 dark:hover:border-primary-400 transition-colors"
-              >
-                <FiSearch className="inline mr-2" size={14} />
-                {p}
-              </button>
-            ))}
-          </div>
-
-          <div className="mt-5">
-            <div className="flex gap-2">
-              <input
-                type="text"
-                value={message}
-                onChange={(e) => setMessage(e.target.value)}
-                placeholder='e.g. "Show me apartments under $1200 in New York"'
-                className="flex-grow border border-secondary-200 dark:border-secondary-600 dark:bg-secondary-700 dark:text-white rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-primary-500 transition-colors"
-              />
-              <button
-                onClick={() => send()}
-                disabled={loading}
-                className={`btn flex items-center gap-2 ${loading ? "opacity-60 cursor-wait" : ""}`}
-              >
-                <FiSend size={16} />
-                {loading ? "Sending..." : "Send"}
-              </button>
-            </div>
-
-            {error && (
-              <div className="mt-3 text-sm text-red-500">{error}</div>
-            )}
+          <div>
+            <h1 className="text-xl font-bold dark:text-white">Property Assistant</h1>
+            <p className="text-xs text-secondary-500 dark:text-secondary-400">
+              Search listings by city, price & bedrooms
+            </p>
           </div>
         </div>
 
-        {reply && (
-          <div className="bg-white dark:bg-secondary-800 rounded-xl shadow-md border border-secondary-100 dark:border-secondary-700 p-5 mb-6 transition-colors duration-300">
-            <h2 className="text-lg font-semibold dark:text-white mb-2">Reply</h2>
-            <p className="text-secondary-700 dark:text-secondary-200 text-sm leading-relaxed">
-              {reply}
-            </p>
-          </div>
-        )}
-
-        <div className="bg-white dark:bg-secondary-800 rounded-xl shadow-md border border-secondary-100 dark:border-secondary-700 p-5 transition-colors duration-300">
-          <h2 className="text-lg font-semibold dark:text-white mb-3">Results</h2>
-          {results.length === 0 ? (
-            <p className="text-secondary-500 dark:text-secondary-400 text-sm">
-              No results yet. Try one of the sample prompts above.
-            </p>
-          ) : (
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              {results.map((r) => (
-                <div
-                  key={r.id}
-                  className="p-4 rounded-lg border border-secondary-200 dark:border-secondary-600 dark:bg-secondary-700 transition-colors"
-                >
-                  <div className="flex items-start justify-between gap-3">
-                    <div>
-                      <div className="font-semibold dark:text-white">
-                        Property #{r.id}
-                      </div>
-                      <div className="text-sm text-secondary-600 dark:text-secondary-300 mt-1">
-                        {r.city}
-                      </div>
-                    </div>
-                    <div className="text-right">
-                      <div className="text-xs text-secondary-500 dark:text-secondary-400">
-                        Price
-                      </div>
-                      <div className="font-semibold dark:text-white">
-                        ${r.price}
-                      </div>
-                    </div>
-                  </div>
-                  <div className="mt-3 text-sm text-secondary-600 dark:text-secondary-300">
-                    Bedrooms: {r.bedrooms}
+        <div className="flex-grow overflow-y-auto rounded-xl bg-white dark:bg-secondary-800 border border-secondary-200 dark:border-secondary-700 shadow-sm p-4 space-y-4 mb-4 transition-colors duration-300">
+          {messages.map((msg, i) => (
+            <div key={i}>
+              {msg.role === "user" ? (
+                <div className="flex justify-end">
+                  <div className="max-w-[85%] px-4 py-2.5 rounded-2xl rounded-br-md bg-primary-600 text-white text-sm leading-relaxed">
+                    {msg.text}
                   </div>
                 </div>
-              ))}
+              ) : (
+                <div className="flex justify-start">
+                  <div className="max-w-[92%] space-y-3">
+                    <div className="px-4 py-3 rounded-2xl rounded-bl-md bg-secondary-100 dark:bg-secondary-700 text-secondary-800 dark:text-secondary-100 text-sm leading-relaxed">
+                      {msg.reply}
+                    </div>
+
+                    {msg.results && msg.results.length > 0 && (
+                      <div className="space-y-2 pl-1">
+                        {msg.results.map((r) => (
+                          <PropertyCard key={r.id} item={r} />
+                        ))}
+                      </div>
+                    )}
+
+                    {msg.suggestions && msg.suggestions.length > 0 && (
+                      <div className="flex flex-wrap gap-2 pt-1">
+                        {msg.suggestions.map((s) => (
+                          <button
+                            key={s}
+                            type="button"
+                            onClick={() => send(s)}
+                            className="text-xs px-3 py-1.5 rounded-full border border-primary-200 dark:border-primary-800 bg-primary-50 dark:bg-primary-900/30 text-primary-700 dark:text-primary-300 hover:bg-primary-100 dark:hover:bg-primary-900/50 transition-colors"
+                          >
+                            {s}
+                          </button>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                </div>
+              )}
+            </div>
+          ))}
+
+          {loading && (
+            <div className="flex justify-start">
+              <div className="px-4 py-3 rounded-2xl rounded-bl-md bg-secondary-100 dark:bg-secondary-700">
+                <div className="flex gap-1.5">
+                  <span className="w-2 h-2 rounded-full bg-secondary-400 animate-bounce" style={{ animationDelay: "0ms" }} />
+                  <span className="w-2 h-2 rounded-full bg-secondary-400 animate-bounce" style={{ animationDelay: "150ms" }} />
+                  <span className="w-2 h-2 rounded-full bg-secondary-400 animate-bounce" style={{ animationDelay: "300ms" }} />
+                </div>
+              </div>
             </div>
           )}
+          <div ref={bottomRef} />
+        </div>
+
+        {error && (
+          <p className="text-xs text-red-500 mb-2 shrink-0">{error}</p>
+        )}
+
+        <div className="shrink-0 flex gap-2 bg-white dark:bg-secondary-800 rounded-xl border border-secondary-200 dark:border-secondary-700 p-2 shadow-sm transition-colors duration-300">
+          <input
+            ref={inputRef}
+            type="text"
+            value={input}
+            onChange={(e) => setInput(e.target.value)}
+            onKeyDown={onKeyDown}
+            placeholder="Ask about apartments..."
+            disabled={loading}
+            className="flex-grow bg-transparent dark:text-white px-3 py-2 text-sm focus:outline-none placeholder:text-secondary-400"
+          />
+          <button
+            type="button"
+            onClick={() => send()}
+            disabled={loading || !input.trim()}
+            className="btn px-4 py-2 flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
+          >
+            <FiSend size={16} />
+            <span className="hidden sm:inline">Send</span>
+          </button>
         </div>
       </div>
     </div>
@@ -160,4 +201,3 @@ function Chatbot() {
 }
 
 export default Chatbot;
-
