@@ -44,11 +44,13 @@ function App() {
 function AppShell({ darkMode, setDarkMode, wallet }) {
   const location = useLocation();
   const isChat = location.pathname === '/chat';
+  const isDashboard = location.pathname === '/dashboard';
+  const isAppView = isChat || isDashboard;
 
   return (
-    <div className={`${isChat ? 'h-screen overflow-hidden' : 'min-h-screen'} flex flex-col bg-secondary-50 dark:bg-secondary-900 transition-colors duration-300`}>
-      <Navbar darkMode={darkMode} setDarkMode={setDarkMode} wallet={wallet} />
-      <main className={`flex-grow min-h-0 ${isChat ? 'overflow-hidden flex flex-col' : ''}`}>
+    <div className={`${isAppView ? 'h-screen overflow-hidden' : 'min-h-screen'} flex flex-col bg-secondary-50 dark:bg-secondary-900 transition-colors duration-300`}>
+      {!isDashboard && <Navbar darkMode={darkMode} setDarkMode={setDarkMode} wallet={wallet} />}
+      <main className={`flex-grow min-h-0 ${isAppView ? 'overflow-hidden flex flex-col' : ''}`}>
         <Routes>
           <Route path="/" element={<Home wallet={wallet} />} />
           <Route path="/properties" element={<Properties />} />
@@ -61,11 +63,11 @@ function AppShell({ darkMode, setDarkMode, wallet }) {
           <Route path="/blog/:slug" element={<BlogPost />} />
           <Route path="/notes" element={<Notes />} />
           <Route path="/chat" element={<div className="h-full min-h-0 flex flex-col"><Chatbot /></div>} />
-          <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/dashboard" element={<Dashboard darkMode={darkMode} setDarkMode={setDarkMode} />} />
           <Route path = '*' element={<NotFound/>} />
         </Routes>
       </main>
-      {!isChat && <Footer />}
+      {!isAppView && <Footer />}
     </div>
   );
 }

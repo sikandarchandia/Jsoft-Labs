@@ -20,6 +20,16 @@ import {
   FiDollarSign,
   FiAlertCircle,
   FiInbox,
+  FiLayout,
+  FiList,
+  FiPieChart,
+  FiSun,
+  FiMoon,
+  FiMenu,
+  FiX,
+  FiBell,
+  FiSearch,
+  FiExternalLink,
 } from 'react-icons/fi';
 
 ChartJS.register(
@@ -334,11 +344,12 @@ function StateToggle({ insightState, setInsightState }) {
   );
 }
 
-function Dashboard() {
+function Dashboard({ darkMode, setDarkMode }) {
   const [variant, setVariant] = useState('overview');
   const [insightState, setInsightState] = useState('data');
+  const [sidebarOpen, setSidebarOpen] = useState(false);
 
-  const isDark = typeof document !== 'undefined' && document.documentElement.classList.contains('dark');
+  const isDark = !!darkMode;
   const tick = isDark ? '#94a3b8' : '#64748b';
   const grid = isDark ? 'rgba(148,163,184,0.15)' : 'rgba(148,163,184,0.25)';
 
@@ -381,54 +392,160 @@ function Dashboard() {
     ],
   };
 
-  const variants = [
-    { id: 'overview', label: 'Overview', hint: 'Spacious · hierarchy' },
-    { id: 'ops', label: 'Operations', hint: 'Compact · table' },
-    { id: 'insights', label: 'Insights', hint: 'Charts · states' },
+  const navItems = [
+    { id: 'overview', label: 'Overview', icon: FiLayout, hint: 'KPIs & activity' },
+    { id: 'ops', label: 'Operations', icon: FiList, hint: 'Listing pipeline' },
+    { id: 'insights', label: 'Insights', icon: FiPieChart, hint: 'Charts & states' },
   ];
 
+  const titles = {
+    overview: { title: 'Overview', sub: 'Portfolio health and recent activity' },
+    ops: { title: 'Operations', sub: 'Review and filter live listings' },
+    insights: { title: 'Insights', sub: 'Funding mix and dashboard states' },
+  };
+
+  const selectVariant = (id) => {
+    setVariant(id);
+    setSidebarOpen(false);
+  };
+
   return (
-    <div className="bg-secondary-50 dark:bg-secondary-900 min-h-screen">
-      <div className="border-b border-secondary-200 dark:border-secondary-800 bg-white/80 dark:bg-secondary-800/80 backdrop-blur">
-        <div className="container py-6">
-          <p className="text-xs font-semibold uppercase tracking-widest text-primary-600">Design task</p>
-          <h1 className="text-3xl sm:text-4xl font-bold text-secondary-900 dark:text-white mt-1">
-            RoyalCity investor dashboard
-          </h1>
-          <p className="mt-2 text-secondary-500 dark:text-secondary-400 max-w-2xl">
-            Three layouts of the same product: overview cards, a compact operations table, and an insights view with loading, empty, and alert states.
-          </p>
-          <div className="mt-5 flex flex-wrap gap-2">
-            {variants.map((v) => (
+    <div className="h-full min-h-0 flex bg-secondary-100 dark:bg-secondary-950">
+      {sidebarOpen && (
+        <button
+          type="button"
+          className="fixed inset-0 z-30 bg-black/40 lg:hidden"
+          aria-label="Close menu"
+          onClick={() => setSidebarOpen(false)}
+        />
+      )}
+
+      <aside
+        className={`fixed lg:static inset-y-0 left-0 z-40 w-64 shrink-0 flex flex-col bg-secondary-900 text-white transition-transform duration-200 ${
+          sidebarOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'
+        }`}
+      >
+        <div className="h-16 px-5 flex items-center justify-between border-b border-white/10">
+          <div className="flex items-center gap-2.5">
+            <div className="w-8 h-8 rounded-lg bg-primary-600 flex items-center justify-center text-sm font-bold">R</div>
+            <div>
+              <p className="font-semibold leading-tight">RoyalCity</p>
+              <p className="text-[11px] text-secondary-400">Investor console</p>
+            </div>
+          </div>
+          <button type="button" className="lg:hidden text-secondary-400" onClick={() => setSidebarOpen(false)}>
+            <FiX size={20} />
+          </button>
+        </div>
+
+        <nav className="flex-1 p-3 space-y-1">
+          <p className="px-3 py-2 text-[11px] uppercase tracking-wider text-secondary-500">Views</p>
+          {navItems.map((item) => {
+            const active = variant === item.id;
+            return (
               <button
-                key={v.id}
+                key={item.id}
                 type="button"
-                onClick={() => setVariant(v.id)}
-                className={`text-left px-4 py-2.5 rounded-xl border transition-colors ${
-                  variant === v.id
-                    ? 'border-primary-500 bg-primary-50 dark:bg-primary-900/30 text-primary-800 dark:text-primary-200'
-                    : 'border-secondary-200 dark:border-secondary-600 bg-white dark:bg-secondary-800 text-secondary-600 dark:text-secondary-300'
+                onClick={() => selectVariant(item.id)}
+                className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-left transition-colors ${
+                  active
+                    ? 'bg-primary-600 text-white'
+                    : 'text-secondary-300 hover:bg-white/5 hover:text-white'
                 }`}
               >
-                <span className="block text-sm font-semibold">{v.label}</span>
-                <span className="block text-xs opacity-70 mt-0.5">{v.hint}</span>
+                <item.icon size={18} className="shrink-0" />
+                <span className="min-w-0">
+                  <span className="block text-sm font-medium">{item.label}</span>
+                  <span className={`block text-[11px] ${active ? 'text-primary-100' : 'text-secondary-500'}`}>
+                    {item.hint}
+                  </span>
+                </span>
               </button>
-            ))}
-          </div>
-        </div>
-      </div>
+            );
+          })}
+        </nav>
 
-      <div className="container py-8 pb-16">
-        {variant === 'overview' && <OverviewDash chartData={lineData} chartOptions={chartOptions} />}
-        {variant === 'ops' && <OperationsDash />}
-        {variant === 'insights' && (
-          <InsightsDash
-            barData={barData}
-            barOptions={chartOptions}
-            insightState={insightState}
-            setInsightState={setInsightState}
-          />
-        )}
+        <div className="p-3 border-t border-white/10">
+          <Link
+            to="/"
+            className="flex items-center gap-2 px-3 py-2.5 rounded-lg text-sm text-secondary-300 hover:bg-white/5 hover:text-white transition-colors"
+          >
+            <FiExternalLink size={16} />
+            Back to website
+          </Link>
+        </div>
+      </aside>
+
+      <div className="flex-1 min-w-0 min-h-0 flex flex-col">
+        <header className="h-16 shrink-0 px-4 sm:px-6 flex items-center gap-3 border-b border-secondary-200 dark:border-secondary-800 bg-white dark:bg-secondary-900">
+          <button
+            type="button"
+            className="lg:hidden p-2 rounded-lg text-secondary-600 dark:text-secondary-300 hover:bg-secondary-100 dark:hover:bg-secondary-800"
+            onClick={() => setSidebarOpen(true)}
+          >
+            <FiMenu size={20} />
+          </button>
+
+          <div className="min-w-0 flex-1">
+            <h1 className="text-base sm:text-lg font-semibold text-secondary-900 dark:text-white truncate">
+              {titles[variant].title}
+            </h1>
+            <p className="text-xs text-secondary-500 dark:text-secondary-400 truncate hidden sm:block">
+              {titles[variant].sub}
+            </p>
+          </div>
+
+          <div className="hidden md:flex items-center gap-2 px-3 py-1.5 rounded-lg bg-secondary-50 dark:bg-secondary-800 border border-secondary-200 dark:border-secondary-700 w-52">
+            <FiSearch size={14} className="text-secondary-400 shrink-0" />
+            <input
+              type="text"
+              placeholder="Search..."
+              className="bg-transparent text-sm w-full focus:outline-none dark:text-white placeholder:text-secondary-400"
+            />
+          </div>
+
+          <button
+            type="button"
+            onClick={() => setDarkMode(!darkMode)}
+            className="p-2 rounded-lg text-secondary-600 dark:text-secondary-300 hover:bg-secondary-100 dark:hover:bg-secondary-800"
+            aria-label="Toggle theme"
+          >
+            {darkMode ? <FiSun size={18} className="text-yellow-400" /> : <FiMoon size={18} />}
+          </button>
+
+          <button
+            type="button"
+            className="relative p-2 rounded-lg text-secondary-600 dark:text-secondary-300 hover:bg-secondary-100 dark:hover:bg-secondary-800"
+          >
+            <FiBell size={18} />
+            <span className="absolute top-1.5 right-1.5 w-1.5 h-1.5 rounded-full bg-primary-500" />
+          </button>
+
+          <div className="flex items-center gap-2 pl-1">
+            <div className="w-8 h-8 rounded-full bg-primary-600 text-white text-xs font-semibold flex items-center justify-center">
+              AJ
+            </div>
+            <div className="hidden sm:block leading-tight">
+              <p className="text-sm font-medium text-secondary-900 dark:text-white">Alex J.</p>
+              <p className="text-[11px] text-secondary-500">Admin</p>
+            </div>
+          </div>
+        </header>
+
+        <main className="flex-1 min-h-0 overflow-y-auto p-4 sm:p-6 lg:p-8">
+          <div className="max-w-6xl mx-auto">
+            {variant === 'overview' && <OverviewDash chartData={lineData} chartOptions={chartOptions} />}
+            {variant === 'ops' && <OperationsDash />}
+            {variant === 'insights' && (
+              <InsightsDash
+                barData={barData}
+                barOptions={chartOptions}
+                insightState={insightState}
+                setInsightState={setInsightState}
+              />
+            )}
+          </div>
+        </main>
       </div>
     </div>
   );
