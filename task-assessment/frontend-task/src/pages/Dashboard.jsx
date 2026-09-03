@@ -72,15 +72,15 @@ function statusClass(status) {
   return 'bg-emerald-50 text-emerald-700 dark:bg-emerald-900/40 dark:text-emerald-300';
 }
 
-function OverviewDash({ chartData, chartOptions, themeKey }) {
+function OverviewDash({ chartData, chartOptions, themeKey, colors: c }) {
   return (
     <div className="space-y-8">
       <div>
         <p className="text-xs font-semibold tracking-widest uppercase text-primary-600 mb-2">Overview</p>
-        <h2 className="text-3xl font-bold text-secondary-900 dark:text-white leading-tight">
+        <h2 className={`text-3xl font-bold leading-tight ${c.cardTitle}`}>
           Portfolio at a glance
         </h2>
-        <p className="mt-2 text-secondary-500 dark:text-secondary-400 max-w-xl">
+        <p className={`mt-2 max-w-xl ${c.cardMuted}`}>
           High-level health of listings, capital, and investors. One primary action per card.
         </p>
       </div>
@@ -89,45 +89,45 @@ function OverviewDash({ chartData, chartOptions, themeKey }) {
         {KPIS.map((k) => (
           <div
             key={k.key}
-            className="rounded-2xl bg-white dark:bg-secondary-800 border border-secondary-100 dark:border-secondary-700 p-5 shadow-sm transition-colors duration-300"
+            className={`rounded-2xl border p-5 shadow-sm transition-colors duration-300 ${c.card}`}
           >
             <div className="flex items-start justify-between">
-              <div className="w-10 h-10 rounded-xl bg-primary-50 dark:bg-primary-900/30 flex items-center justify-center">
+              <div className="w-10 h-10 rounded-xl bg-primary-50 dark:bg-primary-900/30 flex items-center justify-center bg-[#edf9ff]">
                 <k.icon className="text-primary-600" size={18} />
               </div>
-              <span className={`text-xs font-medium ${k.up ? 'text-emerald-600 dark:text-emerald-400' : 'text-amber-600 dark:text-amber-400'}`}>
+              <span className={`text-xs font-medium ${k.up ? 'text-emerald-500' : 'text-amber-500'}`}>
                 {k.change}
               </span>
             </div>
-            <p className="mt-6 text-sm text-secondary-500 dark:text-secondary-400">{k.label}</p>
-            <p className="mt-1 text-2xl font-bold text-secondary-900 dark:text-white">{k.value}</p>
+            <p className={`mt-6 text-sm ${c.cardMuted}`}>{k.label}</p>
+            <p className={`mt-1 text-2xl font-bold ${c.cardTitle}`}>{k.value}</p>
           </div>
         ))}
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-5 gap-6">
-        <div className="lg:col-span-3 rounded-2xl bg-white dark:bg-secondary-800 border border-secondary-100 dark:border-secondary-700 p-5 shadow-sm transition-colors duration-300">
+        <div className={`lg:col-span-3 rounded-2xl border p-5 shadow-sm transition-colors duration-300 ${c.card}`}>
           <div className="flex items-center justify-between mb-4">
-            <h3 className="font-semibold text-secondary-900 dark:text-white">Monthly inflows</h3>
-            <span className="text-xs text-secondary-400">USD · last 6 months</span>
+            <h3 className={`font-semibold ${c.cardTitle}`}>Monthly inflows</h3>
+            <span className={`text-xs ${c.cardMuted}`}>USD · last 6 months</span>
           </div>
           <div className="h-56">
             <Line key={themeKey} data={chartData} options={chartOptions} />
           </div>
         </div>
-        <div className="lg:col-span-2 rounded-2xl bg-white dark:bg-secondary-800 border border-secondary-100 dark:border-secondary-700 p-5 shadow-sm transition-colors duration-300">
-          <h3 className="font-semibold text-secondary-900 dark:text-white mb-4">Live activity</h3>
+        <div className={`lg:col-span-2 rounded-2xl border p-5 shadow-sm transition-colors duration-300 ${c.card}`}>
+          <h3 className={`font-semibold mb-4 ${c.cardTitle}`}>Live activity</h3>
           <ul className="space-y-4">
             {ACTIVITY.map((a) => (
               <li key={a.time + a.who} className="flex gap-3">
-                <div className="w-8 h-8 rounded-full bg-secondary-100 dark:bg-secondary-700 flex items-center justify-center text-xs font-semibold text-secondary-600 dark:text-secondary-200">
+                <div className={`w-8 h-8 rounded-full flex items-center justify-center text-xs font-semibold ${c.sidebarPanel} ${c.cardTitle}`}>
                   {a.who.charAt(0)}
                 </div>
                 <div className="min-w-0">
-                  <p className="text-sm text-secondary-800 dark:text-secondary-100">
+                  <p className={`text-sm ${c.cardTitle}`}>
                     <span className="font-medium">{a.who}</span> {a.action}
                   </p>
-                  <p className="text-xs text-secondary-400">{a.where} · {a.time}</p>
+                  <p className={`text-xs ${c.cardMuted}`}>{a.where} · {a.time}</p>
                 </div>
               </li>
             ))}
@@ -137,7 +137,7 @@ function OverviewDash({ chartData, chartOptions, themeKey }) {
 
       <div>
         <div className="flex items-center justify-between mb-4">
-          <h3 className="font-semibold text-secondary-900 dark:text-white">Featured listings</h3>
+          <h3 className={`font-semibold ${c.cardTitle}`}>Featured listings</h3>
           <Link to="/properties" className="text-sm text-primary-600 hover:text-primary-700 inline-flex items-center gap-1">
             View all <FiArrowUpRight />
           </Link>
@@ -147,27 +147,27 @@ function OverviewDash({ chartData, chartOptions, themeKey }) {
             <Link
               key={p.id}
               to={`/properties/${p.id}`}
-              className="rounded-2xl bg-white dark:bg-secondary-800 border border-secondary-100 dark:border-secondary-700 p-5 shadow-sm hover:border-primary-200 dark:hover:border-primary-700 transition-colors duration-300"
+              className={`rounded-2xl border p-5 shadow-sm transition-colors duration-300 ${c.card}`}
             >
               <div className="flex justify-between gap-3">
                 <div>
-                  <p className="font-semibold text-secondary-900 dark:text-white">{p.title}</p>
-                  <p className="text-sm text-secondary-500 dark:text-secondary-400 mt-1">{p.city}</p>
+                  <p className={`font-semibold ${c.cardTitle}`}>{p.title}</p>
+                  <p className={`text-sm mt-1 ${c.cardMuted}`}>{p.city}</p>
                 </div>
                 <span className={`h-fit text-xs px-2 py-1 rounded-full ${statusClass(p.status)}`}>{p.status}</span>
               </div>
               <div className="mt-4">
-                <div className="flex justify-between text-xs text-secondary-500 dark:text-secondary-400 mb-1">
+                <div className={`flex justify-between text-xs mb-1 ${c.cardMuted}`}>
                   <span>Funded</span>
                   <span>{p.funded}%</span>
                 </div>
-                <div className="h-2 rounded-full bg-secondary-100 dark:bg-secondary-700 overflow-hidden">
+                <div className={`h-2 rounded-full overflow-hidden ${c.progressBg}`}>
                   <div className="h-full bg-primary-600 rounded-full" style={{ width: `${p.funded}%` }} />
                 </div>
               </div>
               <div className="mt-4 flex justify-between text-sm">
-                <span className="text-secondary-500 dark:text-secondary-400">Target {p.price}</span>
-                <span className="font-medium text-emerald-600 dark:text-emerald-400">{p.roi} ROI</span>
+                <span className={c.cardMuted}>Target {p.price}</span>
+                <span className="font-medium text-emerald-500">{p.roi} ROI</span>
               </div>
             </Link>
           ))}
@@ -177,7 +177,7 @@ function OverviewDash({ chartData, chartOptions, themeKey }) {
   );
 }
 
-function OperationsDash() {
+function OperationsDash({ colors: c }) {
   const [q, setQ] = useState('');
   const rows = PROPERTIES.filter(
     (p) =>
@@ -190,21 +190,21 @@ function OperationsDash() {
       <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-3">
         <div>
           <p className="text-xs font-semibold tracking-widest uppercase text-primary-600 mb-1">Operations</p>
-          <h2 className="text-2xl font-bold text-secondary-900 dark:text-white">Listing pipeline</h2>
-          <p className="text-sm text-secondary-500 mt-1">Dense view for daily review, search, and status.</p>
+          <h2 className={`text-2xl font-bold ${c.cardTitle}`}>Listing pipeline</h2>
+          <p className={`text-sm mt-1 ${c.cardMuted}`}>Dense view for daily review, search, and status.</p>
         </div>
         <input
           value={q}
           onChange={(e) => setQ(e.target.value)}
           placeholder="Filter by name or city"
-          className="w-full sm:w-64 rounded-lg border border-secondary-200 dark:border-secondary-600 dark:bg-secondary-800 dark:text-white px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary-500"
+          className={`w-full sm:w-64 rounded-lg border px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary-500 ${c.input}`}
         />
       </div>
 
-      <div className="rounded-xl border border-secondary-200 dark:border-secondary-700 overflow-hidden bg-white dark:bg-secondary-800 transition-colors duration-300">
+      <div className={`rounded-xl border overflow-hidden transition-colors duration-300 ${c.card}`}>
         <div className="overflow-x-auto">
           <table className="min-w-full text-sm">
-            <thead className="bg-secondary-50 dark:bg-secondary-900/60 text-left text-xs uppercase tracking-wide text-secondary-500 dark:text-secondary-400">
+            <thead className={`text-left text-xs uppercase tracking-wide ${c.tableHead}`}>
               <tr>
                 <th className="px-4 py-3 font-semibold">Listing</th>
                 <th className="px-4 py-3 font-semibold">Location</th>
@@ -214,21 +214,21 @@ function OperationsDash() {
                 <th className="px-4 py-3 font-semibold">Status</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-secondary-100 dark:divide-secondary-700">
+            <tbody className={`divide-y ${c.tableBorder}`}>
               {rows.map((p) => (
-                <tr key={p.id} className="hover:bg-secondary-50 dark:hover:bg-secondary-700/40">
-                  <td className="px-4 py-3 font-medium text-secondary-900 dark:text-white">{p.title}</td>
-                  <td className="px-4 py-3 text-secondary-500 dark:text-secondary-400">{p.city}</td>
-                  <td className="px-4 py-3 text-secondary-800 dark:text-secondary-200">{p.price}</td>
-                  <td className="px-4 py-3 text-secondary-800 dark:text-secondary-200">
+                <tr key={p.id} className={c.tableRow}>
+                  <td className={`px-4 py-3 font-medium ${c.cardTitle}`}>{p.title}</td>
+                  <td className={`px-4 py-3 ${c.cardMuted}`}>{p.city}</td>
+                  <td className={`px-4 py-3 ${c.cardTitle}`}>{p.price}</td>
+                  <td className={`px-4 py-3 ${c.cardTitle}`}>
                     <div className="flex items-center gap-2">
-                      <div className="w-16 h-1.5 rounded-full bg-secondary-200 dark:bg-secondary-600 overflow-hidden">
+                      <div className={`w-16 h-1.5 rounded-full overflow-hidden ${c.progressBg}`}>
                         <div className="h-full bg-primary-600" style={{ width: `${p.funded}%` }} />
                       </div>
                       <span className="tabular-nums">{p.funded}%</span>
                     </div>
                   </td>
-                  <td className="px-4 py-3 text-emerald-600 dark:text-emerald-400 font-medium">{p.roi}</td>
+                  <td className="px-4 py-3 text-emerald-500 font-medium">{p.roi}</td>
                   <td className="px-4 py-3">
                     <span className={`text-xs px-2 py-0.5 rounded-full ${statusClass(p.status)}`}>{p.status}</span>
                   </td>
@@ -236,7 +236,7 @@ function OperationsDash() {
               ))}
               {rows.length === 0 && (
                 <tr>
-                  <td colSpan={6} className="px-4 py-8 text-center text-secondary-400">
+                  <td colSpan={6} className={`px-4 py-8 text-center ${c.cardMuted}`}>
                     No listings match “{q}”.
                   </td>
                 </tr>
@@ -249,17 +249,17 @@ function OperationsDash() {
   );
 }
 
-function InsightsDash({ barData, barOptions, insightState, setInsightState, themeKey }) {
+function InsightsDash({ barData, barOptions, insightState, setInsightState, themeKey, colors: c }) {
   if (insightState === 'loading') {
     return (
       <div className="space-y-4">
-        <StateToggle insightState={insightState} setInsightState={setInsightState} />
+        <StateToggle insightState={insightState} setInsightState={setInsightState} colors={c} />
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           {[1, 2, 3].map((i) => (
-            <div key={i} className="h-28 rounded-2xl bg-secondary-200 dark:bg-secondary-700 animate-pulse" />
+            <div key={i} className={`h-28 rounded-2xl animate-pulse ${c.skeleton}`} />
           ))}
         </div>
-        <div className="h-64 rounded-2xl bg-secondary-200 dark:bg-secondary-700 animate-pulse" />
+        <div className={`h-64 rounded-2xl animate-pulse ${c.skeleton}`} />
       </div>
     );
   }
@@ -267,11 +267,11 @@ function InsightsDash({ barData, barOptions, insightState, setInsightState, them
   if (insightState === 'empty') {
     return (
       <div className="space-y-4">
-        <StateToggle insightState={insightState} setInsightState={setInsightState} />
-        <div className="rounded-2xl border border-dashed border-secondary-300 dark:border-secondary-600 bg-white dark:bg-secondary-800 py-16 px-6 text-center">
-          <FiInbox className="mx-auto text-secondary-300 mb-3" size={36} />
-          <h3 className="text-lg font-semibold text-secondary-900 dark:text-white">No analytics yet</h3>
-          <p className="mt-2 text-sm text-secondary-500 max-w-md mx-auto">
+        <StateToggle insightState={insightState} setInsightState={setInsightState} colors={c} />
+        <div className={`rounded-2xl border border-dashed py-16 px-6 text-center ${c.empty}`}>
+          <FiInbox className={`mx-auto mb-3 ${c.cardMuted}`} size={36} />
+          <h3 className={`text-lg font-semibold ${c.cardTitle}`}>No analytics yet</h3>
+          <p className={`mt-2 text-sm max-w-md mx-auto ${c.cardMuted}`}>
             Insights appear after the first successful funding round. Connect a listing to start tracking inflows.
           </p>
           <Link to="/properties" className="btn mt-6">Browse listings</Link>
@@ -283,17 +283,17 @@ function InsightsDash({ barData, barOptions, insightState, setInsightState, them
   if (insightState === 'alert') {
     return (
       <div className="space-y-4">
-        <StateToggle insightState={insightState} setInsightState={setInsightState} />
-        <div className="rounded-2xl border border-amber-200 dark:border-amber-800 bg-amber-50 dark:bg-amber-900/20 p-4 flex gap-3">
-          <FiAlertCircle className="text-amber-600 shrink-0 mt-0.5" size={20} />
+        <StateToggle insightState={insightState} setInsightState={setInsightState} colors={c} />
+        <div className={`rounded-2xl border p-4 flex gap-3 ${c.alert}`}>
+          <FiAlertCircle className="text-amber-500 shrink-0 mt-0.5" size={20} />
           <div>
-            <p className="font-semibold text-amber-900 dark:text-amber-200">Funding lag on 2 listings</p>
-            <p className="text-sm text-amber-800 dark:text-amber-300 mt-1">
+            <p className="font-semibold">Funding lag on 2 listings</p>
+            <p className={`text-sm mt-1 ${c.alertSub}`}>
               Seattle Waterfront is 45% funded with 8 days left. Review pricing or push to the investor list.
             </p>
           </div>
         </div>
-        <div className="rounded-2xl bg-white dark:bg-secondary-800 border border-secondary-100 dark:border-secondary-700 p-5 h-64 transition-colors duration-300">
+        <div className={`rounded-2xl border p-5 h-64 transition-colors duration-300 ${c.card}`}>
           <Bar key={`alert-${themeKey}`} data={barData} options={barOptions} />
         </div>
       </div>
@@ -305,19 +305,19 @@ function InsightsDash({ barData, barOptions, insightState, setInsightState, them
       <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-3">
         <div>
           <p className="text-xs font-semibold tracking-widest uppercase text-primary-600 mb-1">Insights</p>
-          <h2 className="text-2xl font-bold text-secondary-900 dark:text-white">City funding mix</h2>
-          <p className="text-sm text-secondary-500 mt-1">Compare volume by market. Switch states to preview empty, loading, and alert.</p>
+          <h2 className={`text-2xl font-bold ${c.cardTitle}`}>City funding mix</h2>
+          <p className={`text-sm mt-1 ${c.cardMuted}`}>Compare volume by market. Switch states to preview empty, loading, and alert.</p>
         </div>
-        <StateToggle insightState={insightState} setInsightState={setInsightState} />
+        <StateToggle insightState={insightState} setInsightState={setInsightState} colors={c} />
       </div>
-      <div className="rounded-2xl bg-white dark:bg-secondary-800 border border-secondary-100 dark:border-secondary-700 p-5 h-72 transition-colors duration-300">
+      <div className={`rounded-2xl border p-5 h-72 transition-colors duration-300 ${c.card}`}>
         <Bar key={`data-${themeKey}`} data={barData} options={barOptions} />
       </div>
     </div>
   );
 }
 
-function StateToggle({ insightState, setInsightState }) {
+function StateToggle({ insightState, setInsightState, colors: c }) {
   const states = [
     { id: 'data', label: 'Populated' },
     { id: 'loading', label: 'Loading' },
@@ -325,16 +325,14 @@ function StateToggle({ insightState, setInsightState }) {
     { id: 'alert', label: 'Alert' },
   ];
   return (
-    <div className="flex flex-wrap gap-1 p-1 rounded-lg bg-secondary-100 dark:bg-secondary-800">
+    <div className={`flex flex-wrap gap-1 p-1 rounded-lg ${c.stateWrap}`}>
       {states.map((s) => (
         <button
           key={s.id}
           type="button"
           onClick={() => setInsightState(s.id)}
           className={`px-3 py-1.5 text-xs font-medium rounded-md ${
-            insightState === s.id
-              ? 'bg-white dark:bg-secondary-700 text-secondary-900 dark:text-white shadow-sm'
-              : 'text-secondary-500'
+            insightState === s.id ? c.stateActive : c.stateIdle
           }`}
         >
           {s.label}
@@ -350,6 +348,74 @@ function Dashboard({ darkMode, setDarkMode }) {
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
   const isDark = !!darkMode;
+  const themeKey = isDark ? 'dark' : 'light';
+
+  const c = isDark
+    ? {
+        page: 'bg-[#020617]',
+        sidebar: 'bg-[#0f172a] border-[#1e293b] text-white',
+        sidebarBorder: 'border-[#1e293b]',
+        sidebarMuted: 'text-[#94a3b8]',
+        sidebarHint: 'text-[#64748b]',
+        sidebarHover: 'text-[#cbd5e1] hover:bg-white/5 hover:text-white',
+        sidebarPanel: 'bg-white/5',
+        header: 'bg-[#0f172a] border-[#1e293b]',
+        title: 'text-white',
+        sub: 'text-[#94a3b8]',
+        search: 'bg-[#1e293b] border-[#334155] text-white placeholder:text-[#64748b]',
+        iconBtn: 'text-[#cbd5e1] hover:bg-[#1e293b] border-[#334155]',
+        main: 'bg-[#020617]',
+        card: 'bg-[#0f172a] border-[#1e293b]',
+        cardTitle: 'text-white',
+        cardMuted: 'text-[#94a3b8]',
+        tableHead: 'bg-[#020617] text-[#94a3b8]',
+        tableRow: 'hover:bg-[#1e293b]/40',
+        tableBorder: 'divide-[#1e293b]',
+        input: 'border-[#334155] bg-[#1e293b] text-white',
+        switchTrack: 'bg-[#0682ff]',
+        overlay: 'bg-black/50',
+        empty: 'border-[#334155] bg-[#0f172a]',
+        alert: 'border-amber-800 bg-amber-900/20 text-amber-200',
+        alertSub: 'text-amber-300',
+        skeleton: 'bg-[#1e293b]',
+        stateWrap: 'bg-[#1e293b]',
+        stateActive: 'bg-[#0f172a] text-white shadow-sm',
+        stateIdle: 'text-[#94a3b8]',
+        progressBg: 'bg-[#334155]',
+      }
+    : {
+        page: 'bg-[#f1f5f9]',
+        sidebar: 'bg-white border-[#e2e8f0] text-[#0f172a]',
+        sidebarBorder: 'border-[#e2e8f0]',
+        sidebarMuted: 'text-[#64748b]',
+        sidebarHint: 'text-[#94a3b8]',
+        sidebarHover: 'text-[#475569] hover:bg-[#f8fafc] hover:text-[#0f172a]',
+        sidebarPanel: 'bg-[#f8fafc]',
+        header: 'bg-white border-[#e2e8f0]',
+        title: 'text-[#0f172a]',
+        sub: 'text-[#64748b]',
+        search: 'bg-[#f8fafc] border-[#e2e8f0] text-[#0f172a] placeholder:text-[#94a3b8]',
+        iconBtn: 'text-[#475569] hover:bg-[#f1f5f9] border-[#e2e8f0]',
+        main: 'bg-[#f1f5f9]',
+        card: 'bg-white border-[#e2e8f0]',
+        cardTitle: 'text-[#0f172a]',
+        cardMuted: 'text-[#64748b]',
+        tableHead: 'bg-[#f8fafc] text-[#64748b]',
+        tableRow: 'hover:bg-[#f8fafc]',
+        tableBorder: 'divide-[#f1f5f9]',
+        input: 'border-[#e2e8f0] bg-white text-[#0f172a]',
+        switchTrack: 'bg-[#cbd5e1]',
+        overlay: 'bg-black/40',
+        empty: 'border-[#cbd5e1] bg-white',
+        alert: 'border-amber-200 bg-amber-50 text-amber-900',
+        alertSub: 'text-amber-800',
+        skeleton: 'bg-[#e2e8f0]',
+        stateWrap: 'bg-[#f1f5f9]',
+        stateActive: 'bg-white text-[#0f172a] shadow-sm',
+        stateIdle: 'text-[#64748b]',
+        progressBg: 'bg-[#e2e8f0]',
+      };
+
   const tick = isDark ? '#94a3b8' : '#64748b';
   const grid = isDark ? 'rgba(148,163,184,0.15)' : 'rgba(148,163,184,0.25)';
 
@@ -366,31 +432,40 @@ function Dashboard({ darkMode, setDarkMode }) {
     [tick, grid]
   );
 
-  const lineData = {
-    labels: months,
-    datasets: [
-      {
-        data: [180, 220, 195, 310, 280, 360],
-        borderColor: '#0682ff',
-        backgroundColor: 'rgba(6, 130, 255, 0.12)',
-        fill: true,
-        tension: 0.35,
-        pointRadius: 3,
-      },
-    ],
-  };
+  const lineData = useMemo(
+    () => ({
+      labels: months,
+      datasets: [
+        {
+          data: [180, 220, 195, 310, 280, 360],
+          borderColor: '#0682ff',
+          backgroundColor: isDark ? 'rgba(6, 130, 255, 0.18)' : 'rgba(6, 130, 255, 0.12)',
+          fill: true,
+          tension: 0.35,
+          pointRadius: 3,
+          pointBackgroundColor: '#0682ff',
+        },
+      ],
+    }),
+    [isDark]
+  );
 
-  const barData = {
-    labels: ['Miami', 'Austin', 'Seattle', 'NYC'],
-    datasets: [
-      {
-        label: 'Funded %',
-        data: [89, 95, 45, 62],
-        backgroundColor: ['#0682ff', '#006eff', '#48c2ff', '#0854c5'],
-        borderRadius: 6,
-      },
-    ],
-  };
+  const barData = useMemo(
+    () => ({
+      labels: ['Miami', 'Austin', 'Seattle', 'NYC'],
+      datasets: [
+        {
+          label: 'Funded %',
+          data: [89, 95, 45, 62],
+          backgroundColor: isDark
+            ? ['#3b9eff', '#0682ff', '#48c2ff', '#1e6fd9']
+            : ['#0682ff', '#006eff', '#48c2ff', '#0854c5'],
+          borderRadius: 6,
+        },
+      ],
+    }),
+    [isDark]
+  );
 
   const navItems = [
     { id: 'overview', label: 'Overview', icon: FiLayout, hint: 'KPIs & activity' },
@@ -410,50 +485,40 @@ function Dashboard({ darkMode, setDarkMode }) {
   };
 
   const toggleTheme = () => {
-    setDarkMode(!darkMode);
+    setDarkMode(!isDark);
   };
 
-  const themeKey = darkMode ? 'dark' : 'light';
-
   return (
-    <div className="h-full min-h-0 flex bg-secondary-100 dark:bg-secondary-950 transition-colors duration-300">
+    <div className={`h-full min-h-0 flex transition-colors duration-300 ${c.page}`}>
       {sidebarOpen && (
         <button
           type="button"
-          className="fixed inset-0 z-30 bg-black/40 lg:hidden"
+          className={`fixed inset-0 z-30 lg:hidden ${c.overlay}`}
           aria-label="Close menu"
           onClick={() => setSidebarOpen(false)}
         />
       )}
 
       <aside
-        className={`fixed lg:static inset-y-0 left-0 z-40 w-64 shrink-0 flex flex-col transition-colors duration-300 ${
-          darkMode
-            ? 'bg-secondary-900 text-white border-r border-secondary-800'
-            : 'bg-white text-secondary-900 border-r border-secondary-200'
-        } ${sidebarOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'}`}
+        className={`fixed lg:static inset-y-0 left-0 z-40 w-64 shrink-0 flex flex-col border-r transition-colors duration-300 ${c.sidebar} ${
+          sidebarOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'
+        }`}
       >
-        <div className={`h-16 px-5 flex items-center justify-between ${darkMode ? 'border-b border-white/10' : 'border-b border-secondary-200'}`}>
+        <div className={`h-16 px-5 flex items-center justify-between border-b ${c.sidebarBorder}`}>
           <div className="flex items-center gap-2.5">
             <div className="w-8 h-8 rounded-lg bg-primary-600 text-white flex items-center justify-center text-sm font-bold">R</div>
             <div>
               <p className="font-semibold leading-tight">RoyalCity</p>
-              <p className={`text-[11px] ${darkMode ? 'text-secondary-400' : 'text-secondary-500'}`}>Investor console</p>
+              <p className={`text-[11px] ${c.sidebarMuted}`}>Investor console</p>
             </div>
           </div>
-          <button
-            type="button"
-            className={`lg:hidden ${darkMode ? 'text-secondary-400' : 'text-secondary-500'}`}
-            onClick={() => setSidebarOpen(false)}
-          >
+          <button type="button" className={`lg:hidden ${c.sidebarMuted}`} onClick={() => setSidebarOpen(false)}>
             <FiX size={20} />
           </button>
         </div>
 
         <nav className="flex-1 p-3 space-y-1">
-          <p className={`px-3 py-2 text-[11px] uppercase tracking-wider ${darkMode ? 'text-secondary-500' : 'text-secondary-400'}`}>
-            Views
-          </p>
+          <p className={`px-3 py-2 text-[11px] uppercase tracking-wider ${c.sidebarHint}`}>Views</p>
           {navItems.map((item) => {
             const active = variant === item.id;
             return (
@@ -462,17 +527,13 @@ function Dashboard({ darkMode, setDarkMode }) {
                 type="button"
                 onClick={() => selectVariant(item.id)}
                 className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-left transition-colors ${
-                  active
-                    ? 'bg-primary-600 text-white'
-                    : darkMode
-                      ? 'text-secondary-300 hover:bg-white/5 hover:text-white'
-                      : 'text-secondary-600 hover:bg-secondary-50 hover:text-secondary-900'
+                  active ? 'bg-primary-600 text-white' : c.sidebarHover
                 }`}
               >
                 <item.icon size={18} className="shrink-0" />
                 <span className="min-w-0">
                   <span className="block text-sm font-medium">{item.label}</span>
-                  <span className={`block text-[11px] ${active ? 'text-primary-100' : darkMode ? 'text-secondary-500' : 'text-secondary-400'}`}>
+                  <span className={`block text-[11px] ${active ? 'text-primary-100' : c.sidebarHint}`}>
                     {item.hint}
                   </span>
                 </span>
@@ -481,38 +542,29 @@ function Dashboard({ darkMode, setDarkMode }) {
           })}
         </nav>
 
-        <div className={`p-3 space-y-2 ${darkMode ? 'border-t border-white/10' : 'border-t border-secondary-200'}`}>
-          <div
-            className={`flex items-center justify-between px-3 py-2.5 rounded-lg ${
-              darkMode ? 'bg-white/5' : 'bg-secondary-50'
-            }`}
-          >
-            <span className={`inline-flex items-center gap-2 text-sm ${darkMode ? 'text-secondary-200' : 'text-secondary-700'}`}>
-              {darkMode ? <FiMoon size={16} /> : <FiSun size={16} className="text-amber-500" />}
-              Theme
+        <div className={`p-3 space-y-2 border-t ${c.sidebarBorder}`}>
+          <div className={`flex items-center justify-between px-3 py-2.5 rounded-lg ${c.sidebarPanel}`}>
+            <span className={`inline-flex items-center gap-2 text-sm ${c.title}`}>
+              {isDark ? <FiMoon size={16} /> : <FiSun size={16} className="text-amber-500" />}
+              {isDark ? 'Dark' : 'Light'}
             </span>
             <button
               type="button"
               role="switch"
-              aria-checked={darkMode}
+              aria-checked={isDark}
               onClick={toggleTheme}
               className={`relative w-11 h-6 rounded-full transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-primary-500 ${
-                darkMode ? 'bg-primary-600' : 'bg-secondary-300'
+                isDark ? 'bg-primary-600' : c.switchTrack
               }`}
             >
               <span
                 className={`absolute top-0.5 left-0.5 w-5 h-5 rounded-full bg-white shadow transition-transform duration-300 ${
-                  darkMode ? 'translate-x-5' : 'translate-x-0'
+                  isDark ? 'translate-x-5' : 'translate-x-0'
                 }`}
               />
             </button>
           </div>
-          <Link
-            to="/"
-            className={`flex items-center gap-2 px-3 py-2.5 rounded-lg text-sm transition-colors ${
-              darkMode ? 'text-secondary-300 hover:bg-white/5 hover:text-white' : 'text-secondary-600 hover:bg-secondary-50'
-            }`}
-          >
+          <Link to="/" className={`flex items-center gap-2 px-3 py-2.5 rounded-lg text-sm transition-colors ${c.sidebarHover}`}>
             <FiExternalLink size={16} />
             Back to website
           </Link>
@@ -520,47 +572,39 @@ function Dashboard({ darkMode, setDarkMode }) {
       </aside>
 
       <div className="flex-1 min-w-0 min-h-0 flex flex-col">
-        <header className="h-16 shrink-0 px-4 sm:px-6 flex items-center gap-3 border-b border-secondary-200 dark:border-secondary-800 bg-white dark:bg-secondary-900 transition-colors duration-300">
+        <header className={`h-16 shrink-0 px-4 sm:px-6 flex items-center gap-3 border-b transition-colors duration-300 ${c.header}`}>
           <button
             type="button"
-            className="lg:hidden p-2 rounded-lg text-secondary-600 dark:text-secondary-300 hover:bg-secondary-100 dark:hover:bg-secondary-800"
+            className={`lg:hidden p-2 rounded-lg ${c.iconBtn}`}
             onClick={() => setSidebarOpen(true)}
           >
             <FiMenu size={20} />
           </button>
 
           <div className="min-w-0 flex-1">
-            <h1 className="text-base sm:text-lg font-semibold text-secondary-900 dark:text-white truncate">
-              {titles[variant].title}
-            </h1>
-            <p className="text-xs text-secondary-500 dark:text-secondary-400 truncate hidden sm:block">
-              {titles[variant].sub}
-            </p>
+            <h1 className={`text-base sm:text-lg font-semibold truncate ${c.title}`}>{titles[variant].title}</h1>
+            <p className={`text-xs truncate hidden sm:block ${c.sub}`}>{titles[variant].sub}</p>
           </div>
 
-          <div className="hidden md:flex items-center gap-2 px-3 py-1.5 rounded-lg bg-secondary-50 dark:bg-secondary-800 border border-secondary-200 dark:border-secondary-700 w-52 transition-colors duration-300">
-            <FiSearch size={14} className="text-secondary-400 shrink-0" />
+          <div className={`hidden md:flex items-center gap-2 px-3 py-1.5 rounded-lg border w-52 ${c.search}`}>
+            <FiSearch size={14} className="text-[#94a3b8] shrink-0" />
             <input
               type="text"
               placeholder="Search..."
-              className="bg-transparent text-sm w-full focus:outline-none dark:text-white placeholder:text-secondary-400"
+              className="bg-transparent text-sm w-full focus:outline-none"
             />
           </div>
 
           <button
             type="button"
             onClick={toggleTheme}
-            className="p-2.5 rounded-lg text-secondary-600 dark:text-secondary-300 hover:bg-secondary-100 dark:hover:bg-secondary-800 border border-secondary-200 dark:border-secondary-700 transition-colors duration-300"
-            aria-label={darkMode ? 'Switch to light mode' : 'Switch to dark mode'}
-            title={darkMode ? 'Switch to light mode' : 'Switch to dark mode'}
+            className={`p-2.5 rounded-lg border transition-colors duration-300 ${c.iconBtn}`}
+            aria-label={isDark ? 'Switch to light mode' : 'Switch to dark mode'}
           >
-            {darkMode ? <FiSun size={18} className="text-yellow-400" /> : <FiMoon size={18} />}
+            {isDark ? <FiSun size={18} className="text-yellow-400" /> : <FiMoon size={18} />}
           </button>
 
-          <button
-            type="button"
-            className="relative p-2 rounded-lg text-secondary-600 dark:text-secondary-300 hover:bg-secondary-100 dark:hover:bg-secondary-800"
-          >
+          <button type="button" className={`relative p-2 rounded-lg ${c.iconBtn}`}>
             <FiBell size={18} />
             <span className="absolute top-1.5 right-1.5 w-1.5 h-1.5 rounded-full bg-primary-500" />
           </button>
@@ -570,18 +614,18 @@ function Dashboard({ darkMode, setDarkMode }) {
               AJ
             </div>
             <div className="hidden sm:block leading-tight">
-              <p className="text-sm font-medium text-secondary-900 dark:text-white">Alex J.</p>
-              <p className="text-[11px] text-secondary-500">Admin</p>
+              <p className={`text-sm font-medium ${c.title}`}>Alex J.</p>
+              <p className={`text-[11px] ${c.sub}`}>Admin</p>
             </div>
           </div>
         </header>
 
-        <main className="flex-1 min-h-0 overflow-y-auto p-4 sm:p-6 lg:p-8 transition-colors duration-300">
-          <div className="max-w-6xl mx-auto">
+        <main className={`flex-1 min-h-0 overflow-y-auto p-4 sm:p-6 lg:p-8 transition-colors duration-300 ${c.main}`}>
+          <div className="max-w-6xl mx-auto" key={themeKey}>
             {variant === 'overview' && (
-              <OverviewDash chartData={lineData} chartOptions={chartOptions} themeKey={themeKey} />
+              <OverviewDash chartData={lineData} chartOptions={chartOptions} themeKey={themeKey} colors={c} />
             )}
-            {variant === 'ops' && <OperationsDash />}
+            {variant === 'ops' && <OperationsDash colors={c} />}
             {variant === 'insights' && (
               <InsightsDash
                 barData={barData}
@@ -589,6 +633,7 @@ function Dashboard({ darkMode, setDarkMode }) {
                 insightState={insightState}
                 setInsightState={setInsightState}
                 themeKey={themeKey}
+                colors={c}
               />
             )}
           </div>
