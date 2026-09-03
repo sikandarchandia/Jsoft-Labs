@@ -15,7 +15,7 @@ Then update this table:
 | Task | Title | Status | Notes |
 |------|-------|--------|-------|
 | 1 | Introduction | Completed |  |
-| 2 | Frontend Task | Not started |  |
+| 2 | Frontend Task | Completed | Dark/Light mode toggle in Navbar, smooth transitions, responsive |
 | 3 | Backend Task | Not started |  |
 | 4 | Blockchain Task | Not started |  |
 | 5 | Web3 Task | Not started |  |
