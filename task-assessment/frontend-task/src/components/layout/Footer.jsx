@@ -7,7 +7,7 @@ function Footer() {
     <footer className="bg-secondary-900 text-white">
       <div className="container py-12">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
-          {/* Company Info */}
+
           <div>
             <h3 className="text-lg font-semibold mb-4">RoyalCity</h3>
             <p className="text-secondary-300 text-sm">
@@ -15,7 +15,7 @@ function Footer() {
             </p>
           </div>
 
-          {/* Quick Links */}
+
           <div>
             <h3 className="text-lg font-semibold mb-4">Quick Links</h3>
             <ul className="space-y-2">
@@ -42,7 +42,7 @@ function Footer() {
             </ul>
           </div>
 
-          {/* Contact Info */}
+
           <div>
             <h3 className="text-lg font-semibold mb-4">Contact</h3>
             <ul className="space-y-2">
@@ -61,7 +61,7 @@ function Footer() {
             </ul>
           </div>
 
-          {/* Social Links */}
+
           <div>
             <h3 className="text-lg font-semibold mb-4">Connect With Us</h3>
             <div className="flex space-x-4">

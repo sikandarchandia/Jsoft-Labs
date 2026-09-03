@@ -18,7 +18,6 @@
   }
 }
 
-/* Dark mode base overrides */
 .dark body {
   @apply bg-secondary-900 text-secondary-100;
 }

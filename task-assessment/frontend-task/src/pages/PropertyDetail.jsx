@@ -77,7 +77,7 @@ function PropertyDetail() {
 
   return (
     <div className="min-h-screen bg-secondary-50">
-      {/* Navigation */}
+
       <div className="bg-white shadow">
         <div className="container py-4">
           <div className="flex items-center space-x-2 text-sm">
@@ -90,12 +90,12 @@ function PropertyDetail() {
         </div>
       </div>
 
-      {/* Main Content */}
+
       <div className="container py-8">
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          {/* Left Column */}
+
           <div className="lg:col-span-2 space-y-8">
-            {/* Image Gallery */}
+
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
@@ -121,7 +121,7 @@ function PropertyDetail() {
               </div>
             </motion.div>
 
-            {/* Property Details */}
+
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
@@ -133,7 +133,7 @@ function PropertyDetail() {
               
               <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
                 <div className="flex items-center space-x-2">
-                  {/* <FiBed className="text-primary-600" /> */}
+
                   <span>{property.parkingSpaces} Parking</span>
                 </div>
                 <div className="flex items-center space-x-2">
@@ -160,7 +160,7 @@ function PropertyDetail() {
                 ))}
               </div>
 
-              {/* Token Details */}
+
               <h3 className="text-xl font-semibold mb-4">Token Information</h3>
               <div className="bg-secondary-50 rounded-lg p-6 mb-6">
                 <div className="grid grid-cols-2 gap-4">
@@ -187,7 +187,7 @@ function PropertyDetail() {
                 </div>
               </div>
 
-              {/* Financial Details */}
+
               <h3 className="text-xl font-semibold mb-4">Financial Overview</h3>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div className="bg-secondary-50 rounded-lg p-6">
@@ -218,14 +218,14 @@ function PropertyDetail() {
             </motion.div>
           </div>
 
-          {/* Right Column */}
+
           <motion.div
             initial={{ opacity: 0, x: 20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ delay: 0.2 }}
             className="space-y-6"
           >
-            {/* Investment Card */}
+
             <div className="bg-white rounded-lg shadow-md p-6">
               <div className="flex justify-between items-center mb-4">
                 <div>
@@ -248,7 +248,7 @@ function PropertyDetail() {
                 </div>
               </div>
 
-              {/* Investment Metrics */}
+
               <div className="space-y-3 mb-6">
                 <div className="flex justify-between">
                   <span className="text-secondary-600">Rental Yield</span>
@@ -264,7 +264,7 @@ function PropertyDetail() {
                 </div>
               </div>
 
-              {/* Funding Progress */}
+
               <div className="mb-6">
                 <div className="flex justify-between text-sm mb-1">
                   <span className="text-secondary-600">Funding Progress</span>
@@ -306,7 +306,7 @@ function PropertyDetail() {
               </div>
             </div>
 
-            {/* Agent Card */}
+
             <div className="bg-white rounded-lg shadow-md p-6">
               <div className="flex items-center space-x-4 mb-4">
                 <img

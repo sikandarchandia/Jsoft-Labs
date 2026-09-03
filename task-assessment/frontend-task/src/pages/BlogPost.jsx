@@ -50,7 +50,7 @@ function BlogPost() {
 
   return (
     <div className="min-h-screen bg-secondary-50">
-      {/* Hero Section */}
+
       <div className="relative h-[400px]">
         <img
           src={post.image}
@@ -89,10 +89,10 @@ function BlogPost() {
         </div>
       </div>
 
-      {/* Content */}
+
       <div className="container py-12">
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          {/* Main Content */}
+
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -107,14 +107,14 @@ function BlogPost() {
             </div>
           </motion.div>
 
-          {/* Sidebar */}
+
           <motion.div
             initial={{ opacity: 0, x: 20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ delay: 0.4 }}
           >
             <div className="space-y-6">
-              {/* Share */}
+
               <div className="bg-white rounded-lg shadow-md p-6">
                 <h3 className="text-lg font-semibold mb-4 flex items-center">
                   <FiShare2 className="mr-2" />
@@ -133,7 +133,7 @@ function BlogPost() {
                 </div>
               </div>
 
-              {/* Tags */}
+
               <div className="bg-white rounded-lg shadow-md p-6">
                 <h3 className="text-lg font-semibold mb-4 flex items-center">
                   <FiTag className="mr-2" />

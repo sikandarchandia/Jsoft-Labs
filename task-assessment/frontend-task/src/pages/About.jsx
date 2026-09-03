@@ -47,7 +47,7 @@ function About() {
 
   return (
     <div className="min-h-screen bg-secondary-50">
-      {/* Hero Section */}
+
       <section className="relative bg-secondary-900 text-white py-24">
         <div className="container">
           <motion.div
@@ -67,7 +67,7 @@ function About() {
         </div>
       </section>
 
-      {/* Stats Section */}
+
       <section className="py-16">
         <div className="container">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
@@ -89,7 +89,7 @@ function About() {
         </div>
       </section>
 
-      {/* Mission Section */}
+
       <section className="py-16 bg-white">
         <div className="container">
           <div className="max-w-3xl mx-auto text-center mb-16">
@@ -153,7 +153,7 @@ function About() {
         </div>
       </section>
 
-      {/* Partners Section */}
+
       <section className="py-16 bg-white">
         <div className="container">
           <h2 className="text-3xl font-bold text-center mb-12">Supported Cryptocurrencies</h2>
@@ -175,7 +175,7 @@ function About() {
         </div>
       </section>
 
-      {/* Awards Section */}
+
       <section className="py-16">
         <div className="container">
           <h2 className="text-3xl font-bold text-center mb-12">Recognition & Achievements</h2>

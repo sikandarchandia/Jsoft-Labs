@@ -214,7 +214,7 @@ function Home() {
 
   return (
     <div className="space-y-16 bg-secondary-50 dark:bg-secondary-900 transition-colors duration-300">
-      {/* Hero Section */}
+
       <section className="relative h-[600px] flex items-center justify-center">
         <div className="absolute inset-0 overflow-hidden">
           <img
@@ -244,7 +244,7 @@ function Home() {
           </motion.p>
         </div>
       </section>
-      {/* Investment Steps */}
+
       <section className="container">
         <div className="text-center mb-12">
           <h2 className="text-3xl font-bold mb-4 dark:text-white">Start Investing in Minutes</h2>
@@ -274,7 +274,7 @@ function Home() {
         </div>
       </section>
 
-      {/* How It Works */}
+
       <section className="bg-secondary-900 text-white py-16">
         <div className="container">
           <div className="text-center mb-12">
@@ -303,7 +303,7 @@ function Home() {
         </div>
       </section>
 
-      {/* Featured Properties */}
+
       <section className="container">
         <div className="text-center mb-12">
           <h2 className="text-3xl font-bold mb-4 dark:text-white">Featured Investment Opportunities</h2>
@@ -374,7 +374,7 @@ function Home() {
         </div>
       </section>
 
-      {/* Why Choose Us */}
+
       <section className="bg-secondary-50 dark:bg-secondary-900 pt-16 transition-colors duration-300">
         <div className="container">
           <div className="text-center mb-12">
@@ -401,7 +401,7 @@ function Home() {
         </div>
       </section>
       
-      {/* CTA Section */}
+
       <section className="container">
         <div className="bg-primary-600 rounded-2xl p-8 md:p-12 text-white text-center">
           <h2 className="text-3xl font-bold mb-4">Ready to Start Investing?</h2>
@@ -425,7 +425,7 @@ function Home() {
         </div>
       </section>
       
-      {/* Blog */}
+
       <div className="container bg-white dark:bg-secondary-900 py-24 transition-colors duration-300">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -438,7 +438,7 @@ function Home() {
           </p>
         </motion.div>
 
-        {/* Blog Posts Grid */}
+
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {blogPosts.map((post, index) => (
             <motion.article
@@ -480,7 +480,7 @@ function Home() {
         </div>
       </div>
 
-      {/* FAQ Preview */}
+
       <section className="container">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -532,7 +532,7 @@ function Home() {
         </motion.div>
       </section>
       
-      {/* Discord CTA */}
+
       <section className="py-12 bg-primary-900">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="lg:grid lg:grid-cols-2 lg:gap-8 items-center">

@@ -151,7 +151,7 @@ function Properties() {
 
   return (
     <div className="min-h-screen bg-secondary-50">
-      {/* Header */}
+
       <div className="bg-white shadow">
         <div className="container py-6">
           <div className="flex justify-between items-center">
@@ -168,7 +168,7 @@ function Properties() {
         </div>
       </div>
 
-      {/* Filters */}
+
       {showFilters && (
         <div className="bg-white shadow-md border-t">
           <div className="container py-6">
@@ -268,7 +268,7 @@ function Properties() {
         </div>
       )}
 
-      {/* Properties Grid */}
+
       <div className="container py-8">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {sortedProperties.map((property, index) => (
@@ -294,7 +294,7 @@ function Properties() {
                   <h3 className="text-xl font-semibold mb-2">{property.title}</h3>
                   <p className="text-secondary-600 mb-4">{property.location}</p>
 
-                  {/* Price and ROI */}
+
                   <div className="flex justify-between items-center mb-4">
                     <div>
                       <p className="text-sm text-secondary-500">Investment Price</p>
@@ -316,7 +316,7 @@ function Properties() {
                     </div>
                   </div>
 
-                  {/* Investment Metrics */}
+
                   <div className="space-y-2 mb-4">
                     <div className="flex justify-between text-sm">
                       <span className="text-secondary-600">Monthly Income</span>
@@ -332,7 +332,7 @@ function Properties() {
                     </div>
                   </div>
 
-                  {/* Funding Progress */}
+
                   <div className="mb-4">
                     <div className="flex justify-between text-sm mb-1">
                       <span className="text-secondary-600">Funding Progress</span>
@@ -346,7 +346,7 @@ function Properties() {
                     </div>
                   </div>
 
-                  {/* Token Details */}
+
                   <div className="bg-secondary-50 rounded-lg p-3 mb-4">
                     <div className="flex justify-between text-sm">
                       <span className="text-secondary-600">Available Tokens</span>
