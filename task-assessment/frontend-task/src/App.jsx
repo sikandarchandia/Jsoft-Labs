@@ -16,27 +16,25 @@ import Notes from './pages/Notes';
 import { useWallet } from './hooks/useWallet';
 import Chatbot from './pages/Chatbot';
 import Dashboard from './pages/Dashboard';
+import { applyTheme, getStoredTheme } from './utils/theme';
 
 function App() {
   const wallet = useWallet();
-  const [darkMode, setDarkMode] = useState(() => {
-    return localStorage.getItem('theme') === 'dark';
-  });
+  const [darkMode, setDarkMode] = useState(() => getStoredTheme());
 
   useEffect(() => {
-    const root = document.documentElement;
-    if (darkMode) {
-      root.classList.add('dark');
-      localStorage.setItem('theme', 'dark');
-    } else {
-      root.classList.remove('dark');
-      localStorage.setItem('theme', 'light');
-    }
+    applyTheme(darkMode);
   }, [darkMode]);
+
+  const handleThemeChange = (value) => {
+    const next = typeof value === 'function' ? value(darkMode) : value;
+    applyTheme(next);
+    setDarkMode(next);
+  };
 
   return (
     <Router>
-      <AppShell darkMode={darkMode} setDarkMode={setDarkMode} wallet={wallet} />
+      <AppShell darkMode={darkMode} setDarkMode={handleThemeChange} wallet={wallet} />
     </Router>
   );
 }

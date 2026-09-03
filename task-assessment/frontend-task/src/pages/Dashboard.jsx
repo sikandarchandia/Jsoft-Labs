@@ -410,9 +410,7 @@ function Dashboard({ darkMode, setDarkMode }) {
   };
 
   const toggleTheme = () => {
-    if (typeof setDarkMode === 'function') {
-      setDarkMode((prev) => !prev);
-    }
+    setDarkMode(!darkMode);
   };
 
   const themeKey = darkMode ? 'dark' : 'light';
@@ -484,21 +482,31 @@ function Dashboard({ darkMode, setDarkMode }) {
         </nav>
 
         <div className={`p-3 space-y-2 ${darkMode ? 'border-t border-white/10' : 'border-t border-secondary-200'}`}>
-          <button
-            type="button"
-            onClick={toggleTheme}
-            className={`w-full flex items-center justify-between px-3 py-2.5 rounded-lg text-sm transition-colors ${
-              darkMode ? 'text-secondary-300 hover:bg-white/5 hover:text-white' : 'text-secondary-600 hover:bg-secondary-50'
+          <div
+            className={`flex items-center justify-between px-3 py-2.5 rounded-lg ${
+              darkMode ? 'bg-white/5' : 'bg-secondary-50'
             }`}
           >
-            <span className="inline-flex items-center gap-2">
-              {darkMode ? <FiSun size={16} className="text-yellow-400" /> : <FiMoon size={16} />}
-              {darkMode ? 'Light mode' : 'Dark mode'}
+            <span className={`inline-flex items-center gap-2 text-sm ${darkMode ? 'text-secondary-200' : 'text-secondary-700'}`}>
+              {darkMode ? <FiMoon size={16} /> : <FiSun size={16} className="text-amber-500" />}
+              Theme
             </span>
-            <span className={`text-[11px] px-2 py-0.5 rounded-full ${darkMode ? 'bg-white/10' : 'bg-secondary-100'}`}>
-              {darkMode ? 'Dark' : 'Light'}
-            </span>
-          </button>
+            <button
+              type="button"
+              role="switch"
+              aria-checked={darkMode}
+              onClick={toggleTheme}
+              className={`relative w-11 h-6 rounded-full transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-primary-500 ${
+                darkMode ? 'bg-primary-600' : 'bg-secondary-300'
+              }`}
+            >
+              <span
+                className={`absolute top-0.5 left-0.5 w-5 h-5 rounded-full bg-white shadow transition-transform duration-300 ${
+                  darkMode ? 'translate-x-5' : 'translate-x-0'
+                }`}
+              />
+            </button>
+          </div>
           <Link
             to="/"
             className={`flex items-center gap-2 px-3 py-2.5 rounded-lg text-sm transition-colors ${
@@ -542,12 +550,11 @@ function Dashboard({ darkMode, setDarkMode }) {
           <button
             type="button"
             onClick={toggleTheme}
-            className="inline-flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-medium border border-secondary-200 dark:border-secondary-700 text-secondary-700 dark:text-secondary-200 hover:bg-secondary-100 dark:hover:bg-secondary-800 transition-colors duration-300"
+            className="p-2.5 rounded-lg text-secondary-600 dark:text-secondary-300 hover:bg-secondary-100 dark:hover:bg-secondary-800 border border-secondary-200 dark:border-secondary-700 transition-colors duration-300"
             aria-label={darkMode ? 'Switch to light mode' : 'Switch to dark mode'}
             title={darkMode ? 'Switch to light mode' : 'Switch to dark mode'}
           >
-            {darkMode ? <FiSun size={16} className="text-yellow-400" /> : <FiMoon size={16} />}
-            <span className="hidden sm:inline">{darkMode ? 'Light' : 'Dark'}</span>
+            {darkMode ? <FiSun size={18} className="text-yellow-400" /> : <FiMoon size={18} />}
           </button>
 
           <button
