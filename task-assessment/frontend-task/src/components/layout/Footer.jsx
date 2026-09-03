@@ -4,7 +4,7 @@ import { FaDiscord } from 'react-icons/fa';
 
 function Footer() {
   return (
-    <footer className="bg-secondary-900 text-white">
+    <footer className="bg-secondary-800 dark:bg-secondary-950 text-white transition-colors duration-300">
       <div className="container py-12">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
 
