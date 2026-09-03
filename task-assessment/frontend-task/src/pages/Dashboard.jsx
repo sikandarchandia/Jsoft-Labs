@@ -72,7 +72,7 @@ function statusClass(status) {
   return 'bg-emerald-50 text-emerald-700 dark:bg-emerald-900/40 dark:text-emerald-300';
 }
 
-function OverviewDash({ chartData, chartOptions }) {
+function OverviewDash({ chartData, chartOptions, themeKey }) {
   return (
     <div className="space-y-8">
       <div>
@@ -89,13 +89,13 @@ function OverviewDash({ chartData, chartOptions }) {
         {KPIS.map((k) => (
           <div
             key={k.key}
-            className="rounded-2xl bg-white dark:bg-secondary-800 border border-secondary-100 dark:border-secondary-700 p-5 shadow-sm"
+            className="rounded-2xl bg-white dark:bg-secondary-800 border border-secondary-100 dark:border-secondary-700 p-5 shadow-sm transition-colors duration-300"
           >
             <div className="flex items-start justify-between">
               <div className="w-10 h-10 rounded-xl bg-primary-50 dark:bg-primary-900/30 flex items-center justify-center">
                 <k.icon className="text-primary-600" size={18} />
               </div>
-              <span className={`text-xs font-medium ${k.up ? 'text-emerald-600' : 'text-amber-600'}`}>
+              <span className={`text-xs font-medium ${k.up ? 'text-emerald-600 dark:text-emerald-400' : 'text-amber-600 dark:text-amber-400'}`}>
                 {k.change}
               </span>
             </div>
@@ -106,16 +106,16 @@ function OverviewDash({ chartData, chartOptions }) {
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-5 gap-6">
-        <div className="lg:col-span-3 rounded-2xl bg-white dark:bg-secondary-800 border border-secondary-100 dark:border-secondary-700 p-5 shadow-sm">
+        <div className="lg:col-span-3 rounded-2xl bg-white dark:bg-secondary-800 border border-secondary-100 dark:border-secondary-700 p-5 shadow-sm transition-colors duration-300">
           <div className="flex items-center justify-between mb-4">
             <h3 className="font-semibold text-secondary-900 dark:text-white">Monthly inflows</h3>
             <span className="text-xs text-secondary-400">USD · last 6 months</span>
           </div>
           <div className="h-56">
-            <Line data={chartData} options={chartOptions} />
+            <Line key={themeKey} data={chartData} options={chartOptions} />
           </div>
         </div>
-        <div className="lg:col-span-2 rounded-2xl bg-white dark:bg-secondary-800 border border-secondary-100 dark:border-secondary-700 p-5 shadow-sm">
+        <div className="lg:col-span-2 rounded-2xl bg-white dark:bg-secondary-800 border border-secondary-100 dark:border-secondary-700 p-5 shadow-sm transition-colors duration-300">
           <h3 className="font-semibold text-secondary-900 dark:text-white mb-4">Live activity</h3>
           <ul className="space-y-4">
             {ACTIVITY.map((a) => (
@@ -147,17 +147,17 @@ function OverviewDash({ chartData, chartOptions }) {
             <Link
               key={p.id}
               to={`/properties/${p.id}`}
-              className="rounded-2xl bg-white dark:bg-secondary-800 border border-secondary-100 dark:border-secondary-700 p-5 shadow-sm hover:border-primary-200 dark:hover:border-primary-700 transition-colors"
+              className="rounded-2xl bg-white dark:bg-secondary-800 border border-secondary-100 dark:border-secondary-700 p-5 shadow-sm hover:border-primary-200 dark:hover:border-primary-700 transition-colors duration-300"
             >
               <div className="flex justify-between gap-3">
                 <div>
                   <p className="font-semibold text-secondary-900 dark:text-white">{p.title}</p>
-                  <p className="text-sm text-secondary-500 mt-1">{p.city}</p>
+                  <p className="text-sm text-secondary-500 dark:text-secondary-400 mt-1">{p.city}</p>
                 </div>
                 <span className={`h-fit text-xs px-2 py-1 rounded-full ${statusClass(p.status)}`}>{p.status}</span>
               </div>
               <div className="mt-4">
-                <div className="flex justify-between text-xs text-secondary-500 mb-1">
+                <div className="flex justify-between text-xs text-secondary-500 dark:text-secondary-400 mb-1">
                   <span>Funded</span>
                   <span>{p.funded}%</span>
                 </div>
@@ -166,8 +166,8 @@ function OverviewDash({ chartData, chartOptions }) {
                 </div>
               </div>
               <div className="mt-4 flex justify-between text-sm">
-                <span className="text-secondary-500">Target {p.price}</span>
-                <span className="font-medium text-emerald-600">{p.roi} ROI</span>
+                <span className="text-secondary-500 dark:text-secondary-400">Target {p.price}</span>
+                <span className="font-medium text-emerald-600 dark:text-emerald-400">{p.roi} ROI</span>
               </div>
             </Link>
           ))}
@@ -201,10 +201,10 @@ function OperationsDash() {
         />
       </div>
 
-      <div className="rounded-xl border border-secondary-200 dark:border-secondary-700 overflow-hidden bg-white dark:bg-secondary-800">
+      <div className="rounded-xl border border-secondary-200 dark:border-secondary-700 overflow-hidden bg-white dark:bg-secondary-800 transition-colors duration-300">
         <div className="overflow-x-auto">
           <table className="min-w-full text-sm">
-            <thead className="bg-secondary-50 dark:bg-secondary-900/60 text-left text-xs uppercase tracking-wide text-secondary-500">
+            <thead className="bg-secondary-50 dark:bg-secondary-900/60 text-left text-xs uppercase tracking-wide text-secondary-500 dark:text-secondary-400">
               <tr>
                 <th className="px-4 py-3 font-semibold">Listing</th>
                 <th className="px-4 py-3 font-semibold">Location</th>
@@ -218,9 +218,9 @@ function OperationsDash() {
               {rows.map((p) => (
                 <tr key={p.id} className="hover:bg-secondary-50 dark:hover:bg-secondary-700/40">
                   <td className="px-4 py-3 font-medium text-secondary-900 dark:text-white">{p.title}</td>
-                  <td className="px-4 py-3 text-secondary-500">{p.city}</td>
-                  <td className="px-4 py-3">{p.price}</td>
-                  <td className="px-4 py-3">
+                  <td className="px-4 py-3 text-secondary-500 dark:text-secondary-400">{p.city}</td>
+                  <td className="px-4 py-3 text-secondary-800 dark:text-secondary-200">{p.price}</td>
+                  <td className="px-4 py-3 text-secondary-800 dark:text-secondary-200">
                     <div className="flex items-center gap-2">
                       <div className="w-16 h-1.5 rounded-full bg-secondary-200 dark:bg-secondary-600 overflow-hidden">
                         <div className="h-full bg-primary-600" style={{ width: `${p.funded}%` }} />
@@ -228,7 +228,7 @@ function OperationsDash() {
                       <span className="tabular-nums">{p.funded}%</span>
                     </div>
                   </td>
-                  <td className="px-4 py-3 text-emerald-600 font-medium">{p.roi}</td>
+                  <td className="px-4 py-3 text-emerald-600 dark:text-emerald-400 font-medium">{p.roi}</td>
                   <td className="px-4 py-3">
                     <span className={`text-xs px-2 py-0.5 rounded-full ${statusClass(p.status)}`}>{p.status}</span>
                   </td>
@@ -249,7 +249,7 @@ function OperationsDash() {
   );
 }
 
-function InsightsDash({ barData, barOptions, insightState, setInsightState }) {
+function InsightsDash({ barData, barOptions, insightState, setInsightState, themeKey }) {
   if (insightState === 'loading') {
     return (
       <div className="space-y-4">
@@ -293,8 +293,8 @@ function InsightsDash({ barData, barOptions, insightState, setInsightState }) {
             </p>
           </div>
         </div>
-        <div className="rounded-2xl bg-white dark:bg-secondary-800 border border-secondary-100 dark:border-secondary-700 p-5 h-64">
-          <Bar data={barData} options={barOptions} />
+        <div className="rounded-2xl bg-white dark:bg-secondary-800 border border-secondary-100 dark:border-secondary-700 p-5 h-64 transition-colors duration-300">
+          <Bar key={`alert-${themeKey}`} data={barData} options={barOptions} />
         </div>
       </div>
     );
@@ -310,8 +310,8 @@ function InsightsDash({ barData, barOptions, insightState, setInsightState }) {
         </div>
         <StateToggle insightState={insightState} setInsightState={setInsightState} />
       </div>
-      <div className="rounded-2xl bg-white dark:bg-secondary-800 border border-secondary-100 dark:border-secondary-700 p-5 h-72">
-        <Bar data={barData} options={barOptions} />
+      <div className="rounded-2xl bg-white dark:bg-secondary-800 border border-secondary-100 dark:border-secondary-700 p-5 h-72 transition-colors duration-300">
+        <Bar key={`data-${themeKey}`} data={barData} options={barOptions} />
       </div>
     </div>
   );
@@ -409,8 +409,16 @@ function Dashboard({ darkMode, setDarkMode }) {
     setSidebarOpen(false);
   };
 
+  const toggleTheme = () => {
+    if (typeof setDarkMode === 'function') {
+      setDarkMode((prev) => !prev);
+    }
+  };
+
+  const themeKey = darkMode ? 'dark' : 'light';
+
   return (
-    <div className="h-full min-h-0 flex bg-secondary-100 dark:bg-secondary-950">
+    <div className="h-full min-h-0 flex bg-secondary-100 dark:bg-secondary-950 transition-colors duration-300">
       {sidebarOpen && (
         <button
           type="button"
@@ -421,25 +429,33 @@ function Dashboard({ darkMode, setDarkMode }) {
       )}
 
       <aside
-        className={`fixed lg:static inset-y-0 left-0 z-40 w-64 shrink-0 flex flex-col bg-secondary-900 text-white transition-transform duration-200 ${
-          sidebarOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'
-        }`}
+        className={`fixed lg:static inset-y-0 left-0 z-40 w-64 shrink-0 flex flex-col transition-colors duration-300 ${
+          darkMode
+            ? 'bg-secondary-900 text-white border-r border-secondary-800'
+            : 'bg-white text-secondary-900 border-r border-secondary-200'
+        } ${sidebarOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'}`}
       >
-        <div className="h-16 px-5 flex items-center justify-between border-b border-white/10">
+        <div className={`h-16 px-5 flex items-center justify-between ${darkMode ? 'border-b border-white/10' : 'border-b border-secondary-200'}`}>
           <div className="flex items-center gap-2.5">
-            <div className="w-8 h-8 rounded-lg bg-primary-600 flex items-center justify-center text-sm font-bold">R</div>
+            <div className="w-8 h-8 rounded-lg bg-primary-600 text-white flex items-center justify-center text-sm font-bold">R</div>
             <div>
               <p className="font-semibold leading-tight">RoyalCity</p>
-              <p className="text-[11px] text-secondary-400">Investor console</p>
+              <p className={`text-[11px] ${darkMode ? 'text-secondary-400' : 'text-secondary-500'}`}>Investor console</p>
             </div>
           </div>
-          <button type="button" className="lg:hidden text-secondary-400" onClick={() => setSidebarOpen(false)}>
+          <button
+            type="button"
+            className={`lg:hidden ${darkMode ? 'text-secondary-400' : 'text-secondary-500'}`}
+            onClick={() => setSidebarOpen(false)}
+          >
             <FiX size={20} />
           </button>
         </div>
 
         <nav className="flex-1 p-3 space-y-1">
-          <p className="px-3 py-2 text-[11px] uppercase tracking-wider text-secondary-500">Views</p>
+          <p className={`px-3 py-2 text-[11px] uppercase tracking-wider ${darkMode ? 'text-secondary-500' : 'text-secondary-400'}`}>
+            Views
+          </p>
           {navItems.map((item) => {
             const active = variant === item.id;
             return (
@@ -450,13 +466,15 @@ function Dashboard({ darkMode, setDarkMode }) {
                 className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-left transition-colors ${
                   active
                     ? 'bg-primary-600 text-white'
-                    : 'text-secondary-300 hover:bg-white/5 hover:text-white'
+                    : darkMode
+                      ? 'text-secondary-300 hover:bg-white/5 hover:text-white'
+                      : 'text-secondary-600 hover:bg-secondary-50 hover:text-secondary-900'
                 }`}
               >
                 <item.icon size={18} className="shrink-0" />
                 <span className="min-w-0">
                   <span className="block text-sm font-medium">{item.label}</span>
-                  <span className={`block text-[11px] ${active ? 'text-primary-100' : 'text-secondary-500'}`}>
+                  <span className={`block text-[11px] ${active ? 'text-primary-100' : darkMode ? 'text-secondary-500' : 'text-secondary-400'}`}>
                     {item.hint}
                   </span>
                 </span>
@@ -465,10 +483,27 @@ function Dashboard({ darkMode, setDarkMode }) {
           })}
         </nav>
 
-        <div className="p-3 border-t border-white/10">
+        <div className={`p-3 space-y-2 ${darkMode ? 'border-t border-white/10' : 'border-t border-secondary-200'}`}>
+          <button
+            type="button"
+            onClick={toggleTheme}
+            className={`w-full flex items-center justify-between px-3 py-2.5 rounded-lg text-sm transition-colors ${
+              darkMode ? 'text-secondary-300 hover:bg-white/5 hover:text-white' : 'text-secondary-600 hover:bg-secondary-50'
+            }`}
+          >
+            <span className="inline-flex items-center gap-2">
+              {darkMode ? <FiSun size={16} className="text-yellow-400" /> : <FiMoon size={16} />}
+              {darkMode ? 'Light mode' : 'Dark mode'}
+            </span>
+            <span className={`text-[11px] px-2 py-0.5 rounded-full ${darkMode ? 'bg-white/10' : 'bg-secondary-100'}`}>
+              {darkMode ? 'Dark' : 'Light'}
+            </span>
+          </button>
           <Link
             to="/"
-            className="flex items-center gap-2 px-3 py-2.5 rounded-lg text-sm text-secondary-300 hover:bg-white/5 hover:text-white transition-colors"
+            className={`flex items-center gap-2 px-3 py-2.5 rounded-lg text-sm transition-colors ${
+              darkMode ? 'text-secondary-300 hover:bg-white/5 hover:text-white' : 'text-secondary-600 hover:bg-secondary-50'
+            }`}
           >
             <FiExternalLink size={16} />
             Back to website
@@ -477,7 +512,7 @@ function Dashboard({ darkMode, setDarkMode }) {
       </aside>
 
       <div className="flex-1 min-w-0 min-h-0 flex flex-col">
-        <header className="h-16 shrink-0 px-4 sm:px-6 flex items-center gap-3 border-b border-secondary-200 dark:border-secondary-800 bg-white dark:bg-secondary-900">
+        <header className="h-16 shrink-0 px-4 sm:px-6 flex items-center gap-3 border-b border-secondary-200 dark:border-secondary-800 bg-white dark:bg-secondary-900 transition-colors duration-300">
           <button
             type="button"
             className="lg:hidden p-2 rounded-lg text-secondary-600 dark:text-secondary-300 hover:bg-secondary-100 dark:hover:bg-secondary-800"
@@ -495,7 +530,7 @@ function Dashboard({ darkMode, setDarkMode }) {
             </p>
           </div>
 
-          <div className="hidden md:flex items-center gap-2 px-3 py-1.5 rounded-lg bg-secondary-50 dark:bg-secondary-800 border border-secondary-200 dark:border-secondary-700 w-52">
+          <div className="hidden md:flex items-center gap-2 px-3 py-1.5 rounded-lg bg-secondary-50 dark:bg-secondary-800 border border-secondary-200 dark:border-secondary-700 w-52 transition-colors duration-300">
             <FiSearch size={14} className="text-secondary-400 shrink-0" />
             <input
               type="text"
@@ -506,11 +541,13 @@ function Dashboard({ darkMode, setDarkMode }) {
 
           <button
             type="button"
-            onClick={() => setDarkMode(!darkMode)}
-            className="p-2 rounded-lg text-secondary-600 dark:text-secondary-300 hover:bg-secondary-100 dark:hover:bg-secondary-800"
-            aria-label="Toggle theme"
+            onClick={toggleTheme}
+            className="inline-flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-medium border border-secondary-200 dark:border-secondary-700 text-secondary-700 dark:text-secondary-200 hover:bg-secondary-100 dark:hover:bg-secondary-800 transition-colors duration-300"
+            aria-label={darkMode ? 'Switch to light mode' : 'Switch to dark mode'}
+            title={darkMode ? 'Switch to light mode' : 'Switch to dark mode'}
           >
-            {darkMode ? <FiSun size={18} className="text-yellow-400" /> : <FiMoon size={18} />}
+            {darkMode ? <FiSun size={16} className="text-yellow-400" /> : <FiMoon size={16} />}
+            <span className="hidden sm:inline">{darkMode ? 'Light' : 'Dark'}</span>
           </button>
 
           <button
@@ -532,9 +569,11 @@ function Dashboard({ darkMode, setDarkMode }) {
           </div>
         </header>
 
-        <main className="flex-1 min-h-0 overflow-y-auto p-4 sm:p-6 lg:p-8">
+        <main className="flex-1 min-h-0 overflow-y-auto p-4 sm:p-6 lg:p-8 transition-colors duration-300">
           <div className="max-w-6xl mx-auto">
-            {variant === 'overview' && <OverviewDash chartData={lineData} chartOptions={chartOptions} />}
+            {variant === 'overview' && (
+              <OverviewDash chartData={lineData} chartOptions={chartOptions} themeKey={themeKey} />
+            )}
             {variant === 'ops' && <OperationsDash />}
             {variant === 'insights' && (
               <InsightsDash
@@ -542,6 +581,7 @@ function Dashboard({ darkMode, setDarkMode }) {
                 barOptions={chartOptions}
                 insightState={insightState}
                 setInsightState={setInsightState}
+                themeKey={themeKey}
               />
             )}
           </div>
