@@ -16,7 +16,7 @@ Then update this table:
 |------|-------|--------|-------|
 | 1 | Introduction | Completed |  |
 | 2 | Frontend Task | Completed | Dark/Light mode toggle in Navbar, smooth transitions, responsive |
-| 3 | Backend Task | Not started |  |
+| 3 | Backend Task | Completed | Notes CRUD API (POST/GET/PUT/DELETE), in-memory, all endpoints tested |
 | 4 | Blockchain Task | Not started |  |
 | 5 | Web3 Task | Not started |  |
 | 6 | AI Task | Not started |  |
