@@ -14,7 +14,7 @@ Then update this table:
 
 | Task | Title | Status | Notes |
 |------|-------|--------|-------|
-| 1 | Introduction | Not started |  |
+| 1 | Introduction | Completed |  |
 | 2 | Frontend Task | Not started |  |
 | 3 | Backend Task | Not started |  |
 | 4 | Blockchain Task | Not started |  |
