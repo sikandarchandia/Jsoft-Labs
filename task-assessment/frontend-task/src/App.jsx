@@ -15,6 +15,7 @@ import NotFound from './pages/NotFound';
 import Notes from './pages/Notes';
 import { useWallet } from './hooks/useWallet';
 import Chatbot from './pages/Chatbot';
+import Dashboard from './pages/Dashboard';
 
 function App() {
   const wallet = useWallet();
@@ -60,6 +61,7 @@ function AppShell({ darkMode, setDarkMode, wallet }) {
           <Route path="/blog/:slug" element={<BlogPost />} />
           <Route path="/notes" element={<Notes />} />
           <Route path="/chat" element={<div className="h-full min-h-0 flex flex-col"><Chatbot /></div>} />
+          <Route path="/dashboard" element={<Dashboard />} />
           <Route path = '*' element={<NotFound/>} />
         </Routes>
       </main>

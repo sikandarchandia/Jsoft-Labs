@@ -21,5 +21,5 @@ Then update this table:
 | 5 | Web3 Task | Completed | MetaMask connect/disconnect, address display, account+network change handlers |
 | 6 | AI Task | Completed | Chat API (POST /chat) with intent+entities extraction + mock properties search + frontend Chatbot UI |
 | 7 | QA Task | Not started |  |
-| 8 | Design Task | Not started |  |
+| 8 | Design Task | Completed | 3 dashboard variations (Classic, Modern, Compact) at /dashboard |
 
